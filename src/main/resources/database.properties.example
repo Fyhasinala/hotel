@@ -1,0 +1,6 @@
+// change the uppercase text to your actual database information
+// remove the .example so the file is named database.properties;
+
+db.url=DATABASE_URL // db.url=jdbc:postgresql://localhost/DATABASE_NAME
+db.username=DATABASE_USERNAME
+db.password=DATABASE_USER_PASSWORD
