@@ -5,6 +5,6 @@ module com.hotel {
     requires java.sql;
 
     opens com.hotel to javafx.fxml;
-    opens com.hotel.ctrlsvc to javafx.fxml;
     exports com.hotel;
+    opens com.hotel.controllers to javafx.fxml;
 }

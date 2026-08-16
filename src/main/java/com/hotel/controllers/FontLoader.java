@@ -1,4 +1,4 @@
-package com.hotel.ctrlsvc;
+package com.hotel.controllers;
 
 import javafx.scene.text.Font;
 

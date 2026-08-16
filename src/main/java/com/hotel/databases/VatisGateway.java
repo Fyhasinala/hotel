@@ -1,4 +1,4 @@
-package com.hotel.dbsvc;
+package com.hotel.databases;
 
 import java.sql.Connection;
 import java.sql.SQLException;

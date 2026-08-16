@@ -1,0 +1,42 @@
+#root
+{
+    -fx-background-color: #c3bdff60;
+}
+.footer
+{
+    -fx-background-color: #F1E5E840;
+}
+.navigation
+{
+    -fx-padding: 30px 0px 20px 0px;
+    -fx-background-color: #FF007260;
+}
+.b-button
+{
+    -fx-padding: 0px;
+    -fx-border-radius: 30px;
+    -fx-background-color: #FF007230;
+    -fx-background-radius: 30px;
+    -fx-effect: null;
+}
+.b-button:hover
+{
+    -fx-background-color: #aa00ff6f;
+}
+.blur
+{
+    -fx-background-color: #FF007210;
+    -fx-background-radius: 30px;
+    -fx-effect: null;
+}
+.b-label
+{
+    -fx-text-alignment: center;
+    -fx-font-family: "Mending";
+    -fx-font-size: 20px;
+    -fx-padding: 15px 0px 15px 0px;
+    -fx-text-fill: #222222;
+    -fx-background-color: #FF007220;
+    -fx-background-radius: 0 0 30 30;
+    -fx-effect: null;
+}

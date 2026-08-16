@@ -1,4 +1,4 @@
-package com.hotel.dbsvc;
+package com.hotel.databases;
 
 import java.io.InputStream;
 import java.io.IOException;
@@ -8,9 +8,9 @@ import java.sql.SQLException;
 
 public final class Vatis implements VatisGateway
 {
-   private String url;
-   private String username;
-   private String password;
+   private final String url;
+   private final String username;
+   private final String password;
    
    private Vatis()
    {
