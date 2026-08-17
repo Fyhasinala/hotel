@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.collections.FXCollections?>
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="com.hotel.controllers.ListRoom"
+      prefHeight="400.0" prefWidth="600.0">
+
+    <BorderPane>
+
+        <top>
+            <HBox fx:id="statusBar" prefHeight="60" prefWidth="Infinity" alignment="CENTER" style="-fx-padding: 0 40 0 20;">
+                <Region HBox.hgrow="ALWAYS" prefWidth="200"/>
+                <ComboBox fx:id="sort" promptText="Tous" prefWidth="100" prefHeight="40" visibleRowCount="3">
+                    <items>
+                        <FXCollections fx:factory="observableArrayList" >
+                            <String fx:value="Tous"/>
+                            <String fx:value="Libre"/>
+                            <String fx:value="Occuper"/>
+                        </FXCollections>
+                    </items>
+                </ComboBox>
+            </HBox>
+        </top>
+
+        <center>
+            <ScrollPane fitToWidth="true" fitToHeight="true" prefHeight="850" style="-fx-background-color: white; -fx-background: transparent;">
+
+                <GridPane fx:id="room"/>
+
+            </ScrollPane>
+        </center>
+
+        <bottom>
+            <HBox fx:id="manageRoom" prefHeight="100" alignment="CENTER" styleClass="footer" spacing="200"/>
+        </bottom>
+
+    </BorderPane>
+
+</VBox>

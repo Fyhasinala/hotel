@@ -11,6 +11,14 @@
     -fx-padding: 30px 0px 20px 0px;
     -fx-background-color: #FF007260;
 }
+.room
+{
+    -fx-padding: 0px;
+    -fx-border-radius: 30px;
+    -fx-background-color: #1C47FF4D;
+    -fx-background-radius: 30px;
+    -fx-effect: null;
+}
 .b-button
 {
     -fx-padding: 0px;

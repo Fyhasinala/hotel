@@ -1,41 +1,44 @@
 package com.hotel.controllers;
 
 import javafx.fxml.FXML;
-import javafx.scene.control.ComboBox;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import java.io.IOException;
+import java.net.URL;
+import java.util.Objects;
 
-public class Room
+public class Room extends Button
 {
-    @FXML
-    public ComboBox sort;
-    @FXML
-    public VBox first;
-    @FXML
-    public VBox second;
-    @FXML
-    public VBox third;
-    @FXML
-    public HBox roomList;
-    @FXML
-    public HBox statusBar;
-    @FXML
-    public HBox manageRoom;
-    @FXML
-    public BorderPane roomSection;
+    @FXML private Label room_number;
+    @FXML private Label status;
 
-    public void initialize()
+    public Room(String room_number, String status)
     {
-        fillBottom();
-    }
+        URL fxmlUrl = getClass().getResource("room.fxml");
+        FXMLLoader fxmlLoader = new FXMLLoader(fxmlUrl);
 
-    public void fillBottom ()
-    {
-        MyButton add = new MyButton("", "/com/hotel/assets/add.png");
-        MyButton modify = new MyButton("", "/com/hotel/assets/modify.png");
-        MyButton delete = new MyButton("", "/com/hotel/assets/remove.png");
+        fxmlLoader.setRoot(this);
+        fxmlLoader.setController(this);
 
-        manageRoom.getChildren().addAll(add, modify, delete);
+        try
+        {
+            fxmlLoader.load();
+        } catch (IOException ex) {
+            throw new RuntimeException("Failed to compile room components", ex);
+        }
+
+        if ( (room_number != null && !room_number.trim().isEmpty()) && (status != null && !status.trim().isEmpty()) )
+        {
+            this.room_number.setText(room_number);
+            this.status.setText(status);
+        }
+        else
+        {
+            this.room_number.setText(" ");
+            this.status.setText(" ");
+        }
     }
 }

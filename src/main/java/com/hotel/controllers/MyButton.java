@@ -30,7 +30,11 @@ public class MyButton extends Button
             throw new RuntimeException("Failed to compile MenuButton layout components", ex);
         }
 
-        this.label.setText(buttonText);
+        if (buttonText != null && !buttonText.trim().isEmpty()) {
+            this.label.setText(buttonText);
+        } else {
+            this.label.setText(" ");
+        }
 
         if (buttonImage != null && !buttonImage.trim().isEmpty())
         {

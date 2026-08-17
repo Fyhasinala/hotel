@@ -16,7 +16,7 @@
                 </effect>
             </Region>
             <ImageView fx:id="image" StackPane.alignment="TOP_CENTER" fitWidth="80" fitHeight="80" preserveRatio="true"/>
-            <Label fx:id="label" text="Acceuil" alignment="CENTER" maxWidth="Infinity" StackPane.alignment="BOTTOM_CENTER" styleClass="b-label"/>
+            <Label fx:id="label" alignment="CENTER" maxWidth="Infinity" StackPane.alignment="BOTTOM_CENTER" styleClass="b-label"/>
         </StackPane>
     </graphic>
 </fx:root>

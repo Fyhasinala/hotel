@@ -14,8 +14,6 @@ import java.io.IOException;
 public class Main
 {
     @FXML
-    public HBox manageRoom;
-    @FXML
     private VBox navBar;
     @FXML
     private BorderPane content;
@@ -34,33 +32,41 @@ public class Main
         navBar.getChildren().addAll(home, room);
 
         try {
-          FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/hotel/controllers/room.fxml"));
-          Parent roomView = loader.load();
+          FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/hotel/controllers/home.fxml"));
+          Parent homeView = loader.load();
 
-          content.setCenter(roomView);
-        } catch (IOException e)
+          content.setCenter(homeView);
+        } catch (IOException ex)
         {
-        System.err.println("Failed to load room.fxml view." + e.getMessage());
+        System.err.println("Failed to load listRoom.fxml view." + ex.getMessage());
         }
     }
 
     private void loadHome()
     {
-        VBox homeview = new VBox (new Label("Bienvenue sur le Tableau de Bord"));
-        content.setCenter(homeview);
+        try
+        {
+            FXMLLoader load = new FXMLLoader(getClass().getResource("/com/hotel/controllers/home.fxml"));
+            Parent homeView = load.load();
+            content.setCenter(homeView);
+        }
+        catch (IOException ex)
+        {
+            System.err.println("failure: " + ex.getMessage());
+        }
     }
 
     private void loadRoom()
     {
         try
         {
-            FXMLLoader load = new FXMLLoader(getClass().getResource("/com/hotel/controllers/room.fxml"));
+            FXMLLoader load = new FXMLLoader(getClass().getResource("/com/hotel/controllers/listRoom.fxml"));
             Parent roomView = load.load();
             content.setCenter(roomView);
         }
-        catch (IOException e)
+        catch (IOException ex)
         {
-            System.err.println("failure: "  + e.getMessage());
+            System.err.println("failure: "  + ex.getMessage());
         }
     }
 }
