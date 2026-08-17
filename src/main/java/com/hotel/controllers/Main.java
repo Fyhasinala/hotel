@@ -34,13 +34,14 @@ public class Main
           Parent roomView = loader.load();
 
           content.setCenter(roomView);
-        } catch (IOException ex)
+        }
+        catch (IOException ex)
         {
         System.err.println("Failed to load listRoom.fxml view." + ex.getMessage());
         }
     }
 
-    private void loadRoom()
+    public void loadRoom()
     {
         try
         {
