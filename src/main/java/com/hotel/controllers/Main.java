@@ -23,36 +23,20 @@ public class Main
     {
         FontLoader.loadAll();
 
-        MyButton home = new MyButton("Table de bord", "/com/hotel/assets/sakura.png");
         MyButton room = new MyButton("Chambre", "/com/hotel/assets/bed.png");
 
-        home.setOnAction(event -> loadHome());
         room.setOnAction(event -> loadRoom());
 
-        navBar.getChildren().addAll(home, room);
+        navBar.getChildren().addAll(room);
 
         try {
-          FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/hotel/controllers/home.fxml"));
-          Parent homeView = loader.load();
+          FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/hotel/controllers/listRoom.fxml"));
+          Parent roomView = loader.load();
 
-          content.setCenter(homeView);
+          content.setCenter(roomView);
         } catch (IOException ex)
         {
         System.err.println("Failed to load listRoom.fxml view." + ex.getMessage());
-        }
-    }
-
-    private void loadHome()
-    {
-        try
-        {
-            FXMLLoader load = new FXMLLoader(getClass().getResource("/com/hotel/controllers/home.fxml"));
-            Parent homeView = load.load();
-            content.setCenter(homeView);
-        }
-        catch (IOException ex)
-        {
-            System.err.println("failure: " + ex.getMessage());
         }
     }
 
