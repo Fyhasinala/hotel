@@ -18,11 +18,11 @@ public class App extends Application {
     @Override
     public void start(Stage stage) throws IOException
     {
-       FXMLLoader main = new FXMLLoader(App.class.getResource("/com/hotel/views/main.fxml"));
+       FXMLLoader main = new FXMLLoader(App.class.getResource("/com/hotel/controllers/main.fxml"));
        stage.setTitle("Agnes Sweet Home");
-       stage.setScene(new Scene(main.load(), 1000, 600));
-       stage.setMinWidth(1000);
-       stage.setMinHeight(600);
+       stage.setScene(new Scene(main.load(), 1366, 768));
+       stage.setMinWidth(1366);
+       stage.setMinHeight(768);
        stage.show();
     }
 

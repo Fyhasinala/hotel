@@ -44,6 +44,21 @@
                 </StackPane>
             </graphic>
         </Button>
+        <Button prefHeight="140" prefWidth="140" styleClass="button">
+            <graphic>
+                <StackPane>
+                    <Region styleClass="blur" maxWidth="Infinity" maxHeight="Infinity">
+                        <effect>
+                            <BoxBlur width="32" height="32" iterations="3"/>
+                        </effect>
+                    </Region>
+                    <ImageView StackPane.alignment="TOP_CENTER" fitWidth="80" fitHeight="80" preserveRatio="true">
+                        <Image url="@../assets/bed.png"/>
+                    </ImageView>
+                    <Label id="label" text="Reservation" alignment="CENTER" maxWidth="Infinity" StackPane.alignment="BOTTOM_CENTER"/>
+                </StackPane>
+            </graphic>
+        </Button>
     </VBox>
 
     <TabPane HBox.hgrow="ALWAYS">
