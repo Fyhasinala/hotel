@@ -16,17 +16,16 @@ public class MutatingButton extends ClickAnimation
 
     public MutatingButton(String buttonImage)
     {
-        URL fxmlUrl = getClass().getResource("mutatingButton.fxml");
-        FXMLLoader fxmlLoader = new FXMLLoader(fxmlUrl);
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/hotel/utilities/mutatingButton.fxml"));
 
-        fxmlLoader.setRoot(this);
-        fxmlLoader.setController(this);
-
+        loader.setRoot(this);
+        loader.setController(this);
         try
         {
-            fxmlLoader.load();
-        } catch (IOException ex) {
-            throw new RuntimeException("Failed to compile Button layout components", ex);
+            loader.load();
+        } catch (IOException e)
+        {
+            throw new RuntimeException(e);
         }
 
         if (buttonImage != null && !buttonImage.trim().isEmpty())

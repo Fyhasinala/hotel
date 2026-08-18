@@ -25,6 +25,7 @@ public final class Vatis implements VatisGateway
          this.url = data.getProperty("url");
          this.username = data.getProperty("username");
          this.password = data.getProperty("password");
+
       }
       catch (IOException ex)
       {

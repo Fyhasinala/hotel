@@ -19,14 +19,14 @@ CREATE TABLE reserver (
     mail VARCHAR(30) NOT NULL,
     numChambr VARCHAR(3) NOT NULL,
 
-    CONSTRAINT fk_chambre FOREIGN KEY (numChambr) REFERENCES chambre(numChambr) ON UPDATE CASCADE
+    CONSTRAINT fk_chambre FOREIGN KEY (numChambr) REFERENCES chambre(numChambr) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
 CREATE TABLE occuper (
     idOccup INT PRIMARY KEY,
     idreserv INT NOT NULL,
 
-    CONSTRAINT fk_reserver FOREIGN KEY (idreserv) REFERENCES reserver(idreserv) ON DELETE CASCADE
+    CONSTRAINT fk_reserver FOREIGN KEY (idreserv) REFERENCES reserver(idreserv) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 CREATE TABLE sejourner (
@@ -37,5 +37,5 @@ CREATE TABLE sejourner (
     telephone VARCHAR(13) NOT NULL,
     numChambr VARCHAR(3) NOT NULL,
 
-    CONSTRAINT fk_chambre FOREIGN KEY (numChambr) REFERENCES chambre(numchambr) ON UPDATE CASCADE
+    CONSTRAINT fk_chambre FOREIGN KEY (numChambr) REFERENCES chambre(numchambr) ON UPDATE CASCADE ON DELETE CASCADE
 );

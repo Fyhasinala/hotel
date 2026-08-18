@@ -84,39 +84,7 @@
     -fx-background-radius: 20;
     -fx-background-color: #FFD60080;
 }
-.c-sort
-{
-    -fx-background-color: #c3bdff60;
-    -fx-background-radius: 70;
-    -fx-alignment:center;
-}
-.c-sort:hover
-{
-    -fx-cursor: hand;
-    -fx-background-color: #c3bdffb0;
-}
-.c-sort .list-view
-{
-    -fx-background-color: transparent;
-}
-.c-sort .combo-box-popup .list-cell
-{
-    -fx-pref-height: 50;
-    -fx-background-radius: 50;
-    -fx-background-color: transparent;
-}
-.c-sort .combo-box-popup .list-cell:hover
-{
-    -fx-background-color: #c3bdff80;
-}
-.c-sort .list-view .list-cell
-{
-    -fx-alignment:center;
-}
-.c-sort .list-cell
-{
-    -fx-alignment:center;
-}
+
 .newRoom
 {
     -fx-font-size: 30;
@@ -124,41 +92,71 @@
     -fx-background-radius: 50;
     -fx-border-radius: 50;
 }
-.newRoom:hover
-{
-
-}
-.new-box-room
+.drop-box
 {
     -fx-background-color: #c3bdff60;
     -fx-background-radius: 70;
     -fx-alignment:center;
 }
-.new-box-room:hover
+.drop-box:hover
 {
     -fx-cursor: hand;
     -fx-background-color: #c3bdffb0;
 }
-.new-box-room .list-view
+.drop-box .list-view
 {
     -fx-background-color: transparent;
 }
-.new-box-room .combo-box-popup .list-cell
+.drop-box .combo-box-popup .list-cell
 {
     -fx-pref-height: 50;
     -fx-background-radius: 50;
     -fx-background-color: #c3bdfff0;
     -fx-font-weight: 900;
 }
-.new-box-room .combo-box-popup .list-cell:hover
+.drop-box .combo-box-popup .list-cell:hover
 {
     -fx-background-color: #c3bdfff0;
 }
-.new-box-room .list-view .list-cell
+.drop-box .list-view .list-cell
 {
     -fx-alignment:center;
 }
-.new-box-room .list-cell
+.drop-box .list-cell
 {
     -fx-alignment:center;
+}
+.scroll-bar {
+    -fx-background-color: transparent;
+}
+.scroll-bar .track {
+    -fx-background-color: transparent;
+}
+.scroll-bar .increment-button,
+.scroll-bar .decrement-button {
+    -fx-background-color: transparent;
+}
+.scroll-bar .increment-arrow,
+.scroll-bar .decrement-arrow {
+    -fx-background-color: transparent;
+}
+.scroll-bar .thumb {
+    -fx-background-color: #c3bdfff0;
+    -fx-background-radius: 5;
+}
+.scroll-pane .corner
+{
+    -fx-background-color: transparent;
+}
+#panelList
+{
+    -fx-padding: 20;
+    -fx-alignment: center;
+    -fx-background-color: transparent;
+    -fx-background: transparent;
+}
+#panelList .viewport
+{
+    -fx-background-color: transparent;
+    -fx-alignment: center;
 }

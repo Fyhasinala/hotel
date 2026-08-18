@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.layout.VBox?>
-<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.collections.FXCollections?>
@@ -10,14 +9,12 @@
 <fx:root type="javafx.scene.layout.VBox"
          xmlns="http://javafx.com/javafx"
          xmlns:fx="http://javafx.com/fxml"
-         fx:controller="com.hotel.controllers.NewRoom"
          maxWidth="400.0" maxHeight="600.0"
          alignment="CENTER"
          spacing="50"
-         stylesheets="@../style.css"
-         style="-fx-background-color: #c3bdff60; -fx-padding: 20 50 20 50;">
+         style="-fx-background-color: #c3bdff60; -fx-padding: 40 50 40 50; -fx-background-radius: 30;">
 
-    <TextField fx:id="roomNumber" prefWidth="50" prefHeight="50"  promptText="Room Number" alignment="CENTER" styleClass="newRoom"/>
+    <TextField fx:id="roomNumber" prefWidth="260" prefHeight="40" promptText="Numéro de Chambre" alignment="CENTER" styleClass="newRoom"/>
 
     <ComboBox fx:id="design" promptText="TYPE" prefWidth="260" prefHeight="40" visibleRowCount="3" styleClass="new-box-room">
         <items>
@@ -29,8 +26,6 @@
         </items>
     </ComboBox>
 
-    <TextField fx:id="price" promptText="0" prefWidth="50" prefHeight="50" alignment="CENTER" editable="false" styleClass="newRoom"/>
-
-    <HBox fx:id="confirm"/>
+    <TextField fx:id="price" promptText="0" prefWidth="260" prefHeight="40" editable="false" alignment="CENTER" styleClass="newRoom"/>
 
 </fx:root>

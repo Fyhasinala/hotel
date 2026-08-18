@@ -3,8 +3,8 @@
 <?import java.lang.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-
 <?import javafx.collections.FXCollections?>
+
 <VBox xmlns="http://javafx.com/javafx"
       xmlns:fx="http://javafx.com/fxml"
       fx:controller="com.hotel.controllers.ListRoom"
@@ -15,7 +15,7 @@
         <top>
             <HBox prefHeight="60" prefWidth="Infinity" alignment="CENTER" style="-fx-padding: 0 40 0 20;">
                 <Region HBox.hgrow="ALWAYS" prefWidth="200"/>
-                <ComboBox fx:id="sort" promptText="Tous" prefWidth="260" prefHeight="40" visibleRowCount="3" styleClass="c-sort">
+                <ComboBox fx:id="sort" promptText="Tous" prefWidth="260" prefHeight="40" visibleRowCount="3" styleClass="drop-box">
                     <items>
                         <FXCollections fx:factory="observableArrayList">
                             <String fx:value="Tous"/>
@@ -36,7 +36,7 @@
         </center>
 
         <bottom>
-            <HBox fx:id="manageRoom" prefHeight="150" alignment="CENTER" styleClass="footer" spacing="200"/>
+            <HBox fx:id="footer" prefHeight="150" alignment="CENTER" styleClass="footer" spacing="200"/>
         </bottom>
 
     </BorderPane>

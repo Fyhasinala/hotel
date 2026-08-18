@@ -39,6 +39,8 @@ public class Main
         catch (IOException ex)
         {
             System.err.println("failure: "  + ex.getMessage());
+            ex.printStackTrace();
         }
     }
+
 }
