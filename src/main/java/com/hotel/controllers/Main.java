@@ -1,12 +1,12 @@
 package com.hotel.controllers;
 
+import com.hotel.utilities.FontLoader;
+import com.hotel.utilities.MyButton;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javafx.scene.control.Label;
 
 import java.io.IOException;
 
@@ -24,21 +24,8 @@ public class Main
         FontLoader.loadAll();
 
         MyButton room = new MyButton("Chambre", "/com/hotel/assets/bed.png");
-
         room.setOnAction(event -> loadRoom());
-
         navBar.getChildren().addAll(room);
-
-        try {
-          FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/hotel/controllers/listRoom.fxml"));
-          Parent roomView = loader.load();
-
-          content.setCenter(roomView);
-        }
-        catch (IOException ex)
-        {
-        System.err.println("Failed to load listRoom.fxml view." + ex.getMessage());
-        }
     }
 
     public void loadRoom()

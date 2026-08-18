@@ -1,8 +1,7 @@
-package com.hotel.controllers;
+package com.hotel.utilities;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -10,7 +9,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.Objects;
 
-public class MyButton extends Button
+public class MyButton extends ClickAnimation
 {
     @FXML private ImageView image;
     @FXML private Label label;
@@ -47,5 +46,11 @@ public class MyButton extends Button
                 System.err.println("Resource stream failed for asset: " + buttonImage);
             }
         }
+    }
+
+    @Override
+    protected void handleCardClick()
+    {
+
     }
 }

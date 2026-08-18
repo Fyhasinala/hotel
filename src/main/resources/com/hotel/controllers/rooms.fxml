@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<fx:root prefHeight="150" prefWidth="200" type="javafx.scene.layout.StackPane" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1">
+
+    <Label fx:id="number" alignment="CENTER" prefHeight="150" prefWidth="200" style="-fx-font-size: 30;" styleClass="LUXE" text="102" StackPane.alignment="BOTTOM_CENTER" />
+    <Label fx:id="status" alignment="CENTER" prefHeight="40" prefWidth="40" styleClass="LUXE" text="L" StackPane.alignment="TOP_RIGHT" />
+    <Label fx:id="design" alignment="CENTER" prefHeight="40" prefWidth="150" styleClass="LUXE" text="STANDARD" StackPane.alignment="TOP_LEFT" />
+
+</fx:root>

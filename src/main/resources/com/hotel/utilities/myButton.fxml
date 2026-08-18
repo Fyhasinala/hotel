@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.effect.BoxBlur?>
 
-<fx:root type="javafx.scene.control.Button" prefHeight="140" prefWidth="140" styleClass="b-button" xmlns:fx="http://javafx.com">
+<fx:root type="javafx.scene.control.Button" prefHeight="140" prefWidth="140" styleClass="my-button" xmlns:fx="http://javafx.com">
     <graphic>
         <StackPane>
             <Region maxWidth="Infinity" maxHeight="Infinity" styleClass="blur">

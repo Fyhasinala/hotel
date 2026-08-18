@@ -13,11 +13,11 @@
     <BorderPane>
 
         <top>
-            <HBox fx:id="statusBar" prefHeight="60" prefWidth="Infinity" alignment="CENTER" style="-fx-padding: 0 40 0 20;">
+            <HBox prefHeight="60" prefWidth="Infinity" alignment="CENTER" style="-fx-padding: 0 40 0 20;">
                 <Region HBox.hgrow="ALWAYS" prefWidth="200"/>
-                <ComboBox fx:id="sort" promptText="Tous" prefWidth="100" prefHeight="40" visibleRowCount="3">
+                <ComboBox fx:id="sort" promptText="Tous" prefWidth="260" prefHeight="40" visibleRowCount="3" styleClass="c-sort">
                     <items>
-                        <FXCollections fx:factory="observableArrayList" >
+                        <FXCollections fx:factory="observableArrayList">
                             <String fx:value="Tous"/>
                             <String fx:value="Libre"/>
                             <String fx:value="Occuper"/>
@@ -28,15 +28,15 @@
         </top>
 
         <center>
-            <ScrollPane fitToWidth="true" fitToHeight="true" prefHeight="850" style="-fx-background-color: white; -fx-background: transparent;">
+            <ScrollPane fitToWidth="true" fitToHeight="true" prefHeight="850" style="-fx-background-color: white; -fx-background: transparent;-fx-background-radius: 50; -fx-padding:50;">
 
-                <GridPane fx:id="room"/>
+                <FlowPane fx:id="room"/>
 
             </ScrollPane>
         </center>
 
         <bottom>
-            <HBox fx:id="manageRoom" prefHeight="100" alignment="CENTER" styleClass="footer" spacing="200"/>
+            <HBox fx:id="manageRoom" prefHeight="150" alignment="CENTER" styleClass="footer" spacing="200"/>
         </bottom>
 
     </BorderPane>

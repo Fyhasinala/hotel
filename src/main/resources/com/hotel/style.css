@@ -9,17 +9,9 @@
 .navigation
 {
     -fx-padding: 30px 0px 20px 0px;
-    -fx-background-color: #FF007260;
+    -fx-background-color: transparent;
 }
-.room
-{
-    -fx-padding: 0px;
-    -fx-border-radius: 30px;
-    -fx-background-color: #1C47FF4D;
-    -fx-background-radius: 30px;
-    -fx-effect: null;
-}
-.b-button
+.my-button
 {
     -fx-padding: 0px;
     -fx-border-radius: 30px;
@@ -27,9 +19,10 @@
     -fx-background-radius: 30px;
     -fx-effect: null;
 }
-.b-button:hover
+.my-button:hover
 {
-    -fx-background-color: #aa00ff6f;
+    -fx-cursor: hand;
+    -fx-border-color: #FF007260;
 }
 .blur
 {
@@ -47,4 +40,75 @@
     -fx-background-color: #FF007220;
     -fx-background-radius: 0 0 30 30;
     -fx-effect: null;
+}
+.LUXE
+{
+    -fx-text-fill: #000000;
+    -fx-font-weight: 900;
+    -fx-font-size: 20;
+    -fx-border-color: #001017B2;
+    -fx-border-radius: 20;
+    -fx-background-radius: 20;
+}
+.s-LUXE
+{
+    -fx-background-radius: 20;
+    -fx-background-color: #FF000080;
+}
+.STANDARD
+{
+    -fx-text-fill: #000000;
+    -fx-font-weight: 900;
+    -fx-font-size: 20;
+    -fx-border-color: #001017B2;
+    -fx-border-radius: 20;
+    -fx-background-radius: 20;
+}
+.s-STANDARD
+{
+    -fx-background-radius: 20;
+    -fx-background-color: #006FAED7;
+}
+.SUITE
+{
+    -fx-text-fill: #000000;
+    -fx-font-weight: 900;
+    -fx-font-size: 20;
+    -fx-border-color: #001017B2;
+    -fx-border-radius: 20;
+    -fx-background-radius: 20;
+}
+.s-SUITE
+{
+    -fx-background-radius: 20;
+    -fx-background-color: #FFD60080;
+}
+.c-sort
+{
+    -fx-background-color: #c3bdff60;
+    -fx-background-radius: 70;
+    -fx-alignment:center;
+}
+.c-sort:hover
+{
+    -fx-cursor: hand;
+    -fx-background-color: #c3bdffb0;
+}
+.c-sort .list-view
+{
+    -fx-background-color: transparent;
+}
+.c-sort .combo-box-popup .list-cell
+{
+    -fx-pref-height: 50;
+    -fx-background-radius: 50;
+    -fx-background-color: transparent;
+}
+.c-sort .combo-box-popup .list-cell:hover
+{
+    -fx-background-color: #c3bdff80;
+}
+.c-sort .list-view .list-cell
+{
+    -fx-alignment:center;
 }

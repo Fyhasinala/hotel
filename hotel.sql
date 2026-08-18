@@ -7,7 +7,6 @@ CREATE TABLE solde (
 CREATE TABLE chambre (
     numChambr VARCHAR(3) PRIMARY KEY,
     Design VARCHAR(10) NOT NULL,
-    Type VARCHAR(10) NOT NULL,
     prixNuite INT NOT NULL
 );
 
