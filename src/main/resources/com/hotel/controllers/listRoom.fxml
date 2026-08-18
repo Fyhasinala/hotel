@@ -28,7 +28,7 @@
         </top>
 
         <center>
-            <ScrollPane fx:id="panelList" fitToWidth="true" fitToHeight="true" prefHeight="850" style="-fx-background-color: white; -fx-background: transparent;-fx-background-radius: 50;">
+            <ScrollPane fx:id="panelList" fitToWidth="true" fitToHeight="true" prefHeight="850" style="-fx-background-color: white; -fx-background: transparent;">
 
                 <FlowPane fx:id="room"/>
 

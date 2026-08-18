@@ -15,7 +15,7 @@ CREATE TABLE reserver (
     dateReserv DATE DEFAULT CURRENT_DATE NOT NULL,
     dateEntree DATE NOT NULL UNIQUE,
     nbrJour INT NOT NULL,
-    numClient VARCHAR(5) NOT NULL,
+    nomClient VARCHAR(255) NOT NULL,
     mail VARCHAR(30) NOT NULL,
     numChambr VARCHAR(3) NOT NULL,
 

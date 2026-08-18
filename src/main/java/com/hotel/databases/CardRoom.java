@@ -2,6 +2,7 @@ package com.hotel.databases;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class CardRoom
@@ -16,17 +17,44 @@ public class CardRoom
         this.roomNumber = roomNumber;
         this.roomType = roomType;
         this.roomPrice = roomPrice;
+        this.status = "L";
+    }
+    public CardRoom (String roomNumber)
+    {
+        String query = "SELECT design, prixNuite FROM chambre WHERE numChambr = ?";
+
+        try (Connection butler = Vatis.prepare().ready(); PreparedStatement ticket = butler.prepareStatement(query))
+        {
+            ticket.setString(1, roomNumber);
+
+            try ( ResultSet row = ticket.executeQuery())
+            {
+                if(row.next())
+                {
+                    this.status = "L";
+                    this.roomNumber = roomNumber;
+                    this.roomType = row.getString("design");
+                    this.roomPrice = row.getInt("prixNuite");
+                }
+            }
+        }
+        catch (SQLException ex)
+        {
+            ex.printStackTrace();
+        }
+
     }
 
     public String getRoomNumber() { return roomNumber; }
     public String getRoomType() { return roomType; }
     public int getRoomPrice() { return roomPrice; }
+    public String getStatus() { return status; }
 
-    public Result createRoomCard()
+    public final Result createRoomCard()
     {
         String query = "INSERT INTO chambre (numChambr, design, prixNuite) VALUES (?, ?, ?)";
 
-        try (Connection butler = Vatis.prepare().ready(); PreparedStatement ticket = butler.prepareStatement(query);)
+        try (Connection butler = Vatis.prepare().ready(); PreparedStatement ticket = butler.prepareStatement(query))
         {
             ticket.setString(1, roomNumber);
             ticket.setString(2, roomType);
@@ -46,11 +74,11 @@ public class CardRoom
         }
     }
 
-    public Result updateRoomCard()
+    public final Result updateRoomCard()
     {
         String query = "UPDATE chambre SET design = ?, prixNuite = ? WHERE numChambr = ?";
 
-        try (Connection butler = Vatis.prepare().ready(); PreparedStatement ticket = butler.prepareStatement(query);)
+        try (Connection butler = Vatis.prepare().ready(); PreparedStatement ticket = butler.prepareStatement(query))
         {
             ticket.setString(1, roomType);
             ticket.setInt(2, roomPrice);
@@ -69,4 +97,26 @@ public class CardRoom
             return Result.exception();
         }
     }
+
+    public void checkIfOccupied (String roomNumber)
+    {
+        String query = "SELECT numChambr FROM occuper WHERE numChambr = ?";
+
+        try (Connection butler = Vatis.prepare().ready(); PreparedStatement ticket = butler.prepareStatement(query))
+        {
+            ticket.setString(1, roomNumber);
+
+            try (ResultSet row = ticket.executeQuery())
+            {
+                if (row.next()) { this.status = "O"; }
+                else this.status = "L";
+            }
+        }
+        catch (SQLException ex)
+        {
+            ex.printStackTrace();
+        }
+    }
+
+
 }
