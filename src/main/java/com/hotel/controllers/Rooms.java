@@ -14,8 +14,9 @@ public class Rooms extends CardHover
     @FXML private Label number;
     @FXML private Label status;
     @FXML private Label design;
+    @FXML private Label price;
 
-    public Rooms(String number, String status, String design)
+    public Rooms(String number, String status, String design, int price)
     {
         FXMLLoader loadRoom = new FXMLLoader(getClass().getResource("rooms.fxml"));
         loadRoom.setRoot(this);
@@ -34,6 +35,7 @@ public class Rooms extends CardHover
             this.number.setText(number);
             this.status.setText(status);
             this.design.setText(design);
+            this.price.setText(String.valueOf(price));
         }
         else
         {
@@ -44,6 +46,7 @@ public class Rooms extends CardHover
         this.number.getStyleClass().setAll("label", design);
         this.status.getStyleClass().setAll("label", design);
         this.design.getStyleClass().setAll("label", design);
+        this.price.getStyleClass().setAll("label", design);
         this.getStyleClass().setAll("stack-pane", "s-"+design);
 
         ScaleTransition st = new ScaleTransition(Duration.millis(150), this);

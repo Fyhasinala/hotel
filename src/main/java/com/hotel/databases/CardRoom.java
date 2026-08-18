@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class CardRoom
@@ -18,7 +19,7 @@ public class CardRoom
         this.roomNumber = roomNumber;
         this.roomType = roomType;
         this.roomPrice = roomPrice;
-        this.status = "L";
+        this.status = "";
     }
     public CardRoom (String roomNumber)
     {
@@ -101,15 +102,18 @@ public class CardRoom
 
     public void checkIfOccupied (String roomNumber)
     {
-        String query = "SELECT numChambr FROM occuper WHERE numChambr = ?";
+        String query = "SELECT numChambr FROM sejourner WHERE numChambr = ? AND current_date BETWEEN dateentreesejour AND dateentreesejour + (nbrjour * INTERVAL '1 day')";
+        String query_2 = "SELECT numChambr FROM reserver WHERE numChambr = ? AND curren_date BETWEEN dateentree AND dateentree + (nbjour * INTERVAL '1 day')";
 
-        try (Connection butler = Vatis.prepare().ready(); PreparedStatement ticket = butler.prepareStatement(query))
+        try (Connection butler = Vatis.prepare().ready(); Connection butler_2 = Vatis.prepare().ready();
+             PreparedStatement ticket = butler.prepareStatement(query); PreparedStatement ticket_2 = butler_2.prepareStatement(query_2))
         {
             ticket.setString(1, roomNumber);
+            ticket_2.setString(1, roomNumber);
 
-            try (ResultSet row = ticket.executeQuery())
+            try (ResultSet row = ticket.executeQuery(); ResultSet row_2 = ticket_2.executeQuery())
             {
-                if (row.next()) { this.status = "O"; }
+                if (row.next() || row_2.next()) { this.status = "O"; }
                 else this.status = "L";
             }
         }
@@ -117,6 +121,7 @@ public class CardRoom
         {
             ex.printStackTrace();
         }
+
     }
 
     public Result destroyRoom ()
@@ -143,10 +148,44 @@ public class CardRoom
 
     public static List<CardRoom> listAllRooms (String filter)
     {
+        List<CardRoom> roomList = new ArrayList<>();
+        String query = getQuery(filter);
+
+        try (Connection butler = Vatis.prepare().ready(); PreparedStatement ticket = butler.prepareStatement(query); ResultSet row = ticket.executeQuery())
+        {
+            while(row.next())
+            {
+                String roomNumber = row.getString("numChambr");
+                String roomType = row.getString("design");
+                int roomPrice = row.getInt("prixNuite");
+                String status = "L";
+                if (filter.equals("Occuper")) status = "O";
+                else if (filter.equals("Libre")) status = "L";
+                CardRoom in = new CardRoom (roomNumber, roomType, roomPrice);
+                roomList.add(in);
+            }
+        }
+        catch (SQLException ex)
+        {
+            ex.printStackTrace();
+        }
+        return roomList;
+    }
+
+    private static String getQuery(String filter)
+    {
         String query = "SELECT * FROM chambre";
         if (filter.equals("Occuper"))
         {
-            query = "SELECT c.numChambr, c.design, c.prixNuite FROM occuper o JOIN reserver r ON r.idreserv = o.idreserv JOIN chambre c ON r.numchambr = c.numChambr";
+            query = "SELECT c.numChambr, c.design, c.prixNuite FROM chambre c " +
+                        "WHERE EXISTS (SELECT 1 FROM reserver r WHERE r.numChambr = c.numChambr AND CURRENT_DATE BETWEEN r.dateentree AND r.dateentree + (r.nbrjour * INTERVAL '1 day')) " +
+                        "OR EXISTS (SELECT 1 FROM sejourner s WHERE s.numChambr = c.numChambr AND CURRENT_DATE BETWEEN s.dateentreesejour AND s.dateentreesejour + (s.nbrjour * INTERVAL '1 day'))";
         }
+        else if (filter.equals("Libre"))
+        {
+            query = "SELECT c.numChambr, c.design, c.prixNuite FROM chambre c WHERE NOT EXISTS (SELECT 1 FROM sejourner s WHERE s.numChambr = c.numChambr) AND " +
+                    "NOT EXISTS (SELECT 1 FROM reserver r WHERE r.numChambr = c.numChambr AND CURRENT_DATE BETWEEN r.dateentree AND r.dateentree + (r.nbrjour * INTERVAL '1 day'))";
+        }
+        return query;
     }
 }

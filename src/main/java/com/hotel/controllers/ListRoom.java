@@ -1,5 +1,6 @@
 package com.hotel.controllers;
 
+import com.hotel.databases.CardRoom;
 import com.hotel.utilities.MutatingButton;
 import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;
@@ -12,6 +13,9 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.List;
+
+import static com.hotel.databases.CardRoom.listAllRooms;
 
 public class ListRoom
 {
@@ -27,7 +31,6 @@ public class ListRoom
     private MutatingButton cancel;
     private MutatingButton confirm;
 
-    // Track the active open form instance so we can pull text from it later
     private NewRoom activeFormInstance;
 
     public void initialize()
@@ -40,7 +43,8 @@ public class ListRoom
     }
 
     private void initializeAllButtons() {
-        add = new MutatingButton("/com/hotel/assets/add.png") {
+        add = new MutatingButton("/com/hotel/assets/add.png")
+        {
             @Override
             protected void handleButtonClick() {
                 // Store the instance into our tracker variable
@@ -53,17 +57,21 @@ public class ListRoom
         modify = new MutatingButton("/com/hotel/assets/modify.png");
         delete = new MutatingButton("/com/hotel/assets/delete.png");
 
-        confirm = new MutatingButton("/com/hotel/assets/confirm.png") {
+        confirm = new MutatingButton("/com/hotel/assets/confirm.png")
+        {
             @Override
-            protected void handleButtonClick() {
-                if (activeFormInstance != null) {
+            protected void handleButtonClick()
+            {
+                if (activeFormInstance != null)
+                {
                     // 1. Grab the inputs using our getters!
                     String roomNumValue = activeFormInstance.getRoomNumber();
                     String designValue  = activeFormInstance.getDesign();
                     String priceValue   = activeFormInstance.getPrice();
 
                     // Validation check: prevent empty entries
-                    if (roomNumValue.isEmpty() || designValue == null) {
+                    if (roomNumValue.isEmpty() || designValue == null)
+                    {
                         System.err.println("Error: Fields cannot be left empty!");
                         return;
                     }
@@ -133,26 +141,22 @@ public class ListRoom
         room.setHgap(10);
         room.setVgap(10);
 
-        // Keep using your mock data template loop below until you pull rows from DB...
-        String[][] mockRooms = {
-                {"101", "L", "STANDARD"}, {"102", "O", "STANDARD"}, {"103", "L", "LUXE"},
-                {"104", "O", "LUXE"},     {"105", "L", "STANDARD"}, {"201", "O", "LUXE"},
-                {"202", "L", "LUXE"},     {"203", "O", "SUITE"},    {"204", "L", "STANDARD"},
-                {"205", "O", "LUXE"},     {"301", "L", "SUITE"},    {"302", "O", "SUITE"},
-                {"303", "L", "LUXE"},     {"304", "L", "STANDARD"}, {"305", "O", "SUITE"}
-        };
+        List<CardRoom> roomList = CardRoom.listAllRooms(filter);
 
-        for (String[] r : mockRooms) {
-            String num = r[0];
-            String status = r[1];
-            String design = r[2];
+        for (CardRoom in : roomList)
+        {
+            String num = in.getRoomNumber();
+            String status = in.getStatus();
+            String design = in.getRoomType();
+            int price = in.getRoomPrice();
 
             boolean matchesAll = filter.equals("Tous");
             boolean matchesLibre = filter.equals("Libre") && status.equals("L");
             boolean matchesOccuper = filter.equals("Occuper") && status.equals("O");
 
-            if (matchesAll || matchesLibre || matchesOccuper) {
-                Rooms card = new Rooms(num, status, design);
+            if (matchesAll || matchesLibre || matchesOccuper)
+            {
+                Rooms card = new Rooms(num, status, design, price);
                 room.getChildren().add(card);
             }
         }
