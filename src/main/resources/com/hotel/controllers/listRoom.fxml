@@ -10,7 +10,7 @@
       fx:controller="com.hotel.controllers.ListRoom"
       prefHeight="400.0" prefWidth="600.0">
 
-    <BorderPane>
+    <BorderPane fx:id="centerPane">
 
         <top>
             <HBox prefHeight="60" prefWidth="Infinity" alignment="CENTER" style="-fx-padding: 0 40 0 20;">
@@ -28,7 +28,7 @@
         </top>
 
         <center>
-            <ScrollPane fitToWidth="true" fitToHeight="true" prefHeight="850" style="-fx-background-color: white; -fx-background: transparent;-fx-background-radius: 50; -fx-padding:50;">
+            <ScrollPane fx:id="panelList" fitToWidth="true" fitToHeight="true" prefHeight="850" style="-fx-background-color: white; -fx-background: transparent;-fx-background-radius: 50;">
 
                 <FlowPane fx:id="room"/>
 

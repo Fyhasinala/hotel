@@ -43,8 +43,5 @@ public class MutatingButton extends ClickAnimation
     }
 
     @Override
-    protected void handleCardClick()
-    {
-
-    }
+    protected void handleButtonClick() { }
 }

@@ -23,6 +23,7 @@
 {
     -fx-cursor: hand;
     -fx-border-color: #FF007260;
+    -fx-border-width: 5;
 }
 .blur
 {
@@ -109,6 +110,55 @@
     -fx-background-color: #c3bdff80;
 }
 .c-sort .list-view .list-cell
+{
+    -fx-alignment:center;
+}
+.c-sort .list-cell
+{
+    -fx-alignment:center;
+}
+.newRoom
+{
+    -fx-font-size: 30;
+    -fx-background-color: #c3bdff60;
+    -fx-background-radius: 50;
+    -fx-border-radius: 50;
+}
+.newRoom:hover
+{
+
+}
+.new-box-room
+{
+    -fx-background-color: #c3bdff60;
+    -fx-background-radius: 70;
+    -fx-alignment:center;
+}
+.new-box-room:hover
+{
+    -fx-cursor: hand;
+    -fx-background-color: #c3bdffb0;
+}
+.new-box-room .list-view
+{
+    -fx-background-color: transparent;
+}
+.new-box-room .combo-box-popup .list-cell
+{
+    -fx-pref-height: 50;
+    -fx-background-radius: 50;
+    -fx-background-color: #c3bdfff0;
+    -fx-font-weight: 900;
+}
+.new-box-room .combo-box-popup .list-cell:hover
+{
+    -fx-background-color: #c3bdfff0;
+}
+.new-box-room .list-view .list-cell
+{
+    -fx-alignment:center;
+}
+.new-box-room .list-cell
 {
     -fx-alignment:center;
 }

@@ -9,13 +9,13 @@ public abstract class CardHover extends StackPane {
     {
         ScaleTransition st = new ScaleTransition(Duration.millis(150), this);
 
-        this.setOnMouseEntered(e -> {
+        this.setOnMouseEntered(event -> {
             st.setToX(1.05);
             st.setToY(1.05);
             st.playFromStart();
         });
 
-        this.setOnMouseExited(e -> {
+        this.setOnMouseExited(event -> {
             st.setToX(1.0);
             st.setToY(1.0);
             st.playFromStart();

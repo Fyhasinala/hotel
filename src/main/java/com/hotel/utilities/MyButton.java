@@ -49,8 +49,5 @@ public class MyButton extends ClickAnimation
     }
 
     @Override
-    protected void handleCardClick()
-    {
-
-    }
+    protected void handleButtonClick(){ }
 }

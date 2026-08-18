@@ -20,7 +20,7 @@ public abstract class ClickAnimation extends Button
         pressDown.setOnFinished(finishEvent -> releasePop.playFromStart());
 
         this.setOnMouseEntered
-        (e ->
+        (event ->
             {
                 st.setToX(1.05);
                 st.setToY(1.05);
@@ -28,7 +28,7 @@ public abstract class ClickAnimation extends Button
             }
         );
         this.setOnMouseExited
-        (e ->
+        (event ->
             {
                 st.setToX(1.0);
                 st.setToY(1.0);
@@ -36,12 +36,12 @@ public abstract class ClickAnimation extends Button
             }
         );
         this.setOnMouseClicked
-        (e ->
+        (event ->
             {
                 pressDown.playFromStart();
             }
         );
     }
 
-    protected abstract void handleCardClick();
+    protected abstract void handleButtonClick();
 }
