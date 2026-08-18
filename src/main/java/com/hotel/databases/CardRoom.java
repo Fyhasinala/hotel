@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
 
 public class CardRoom
 {
@@ -50,7 +51,7 @@ public class CardRoom
     public int getRoomPrice() { return roomPrice; }
     public String getStatus() { return status; }
 
-    public final Result createRoomCard()
+    public final Result buildRoom()
     {
         String query = "INSERT INTO chambre (numChambr, design, prixNuite) VALUES (?, ?, ?)";
 
@@ -74,7 +75,7 @@ public class CardRoom
         }
     }
 
-    public final Result updateRoomCard()
+    public final Result upgradeRoom()
     {
         String query = "UPDATE chambre SET design = ?, prixNuite = ? WHERE numChambr = ?";
 
@@ -118,5 +119,34 @@ public class CardRoom
         }
     }
 
+    public Result destroyRoom ()
+    {
+        String query = "DELETE FROM chambre WHERE numChambr = ?";
 
+        try (Connection butler = Vatis.prepare().ready(); PreparedStatement ticket = butler.prepareStatement(query))
+        {
+            ticket.setString(1, roomNumber);
+            int rowAffected = ticket.executeUpdate();
+
+            if (rowAffected > 0)
+            {
+                return Result.success("La démolition du chambre est terminée");
+            }
+            return Result.failure("La démolition du chambre est impossible pour le moment");
+        }
+        catch (SQLException ex)
+        {
+            ex.printStackTrace();
+            return Result.exception();
+        }
+    }
+
+    public static List<CardRoom> listAllRooms (String filter)
+    {
+        String query = "SELECT * FROM chambre";
+        if (filter.equals("Occuper"))
+        {
+            query = "SELECT c.numChambr, c.design, c.prixNuite FROM occuper o JOIN reserver r ON r.idreserv = o.idreserv JOIN chambre c ON r.numchambr = c.numChambr";
+        }
+    }
 }

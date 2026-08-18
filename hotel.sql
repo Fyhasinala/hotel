@@ -13,7 +13,7 @@ CREATE TABLE chambre (
 CREATE TABLE reserver (
     idreserv INT PRIMARY KEY,
     dateReserv DATE DEFAULT CURRENT_DATE NOT NULL,
-    dateEntree DATE NOT NULL UNIQUE,
+    dateEntree DATE NOT NULL,
     nbrJour INT NOT NULL,
     nomClient VARCHAR(255) NOT NULL,
     mail VARCHAR(30) NOT NULL,
