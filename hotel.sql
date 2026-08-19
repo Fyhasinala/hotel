@@ -5,38 +5,39 @@ CREATE TABLE solde (
 );
 
 CREATE TABLE chambre (
-    numChambr VARCHAR(3) PRIMARY KEY,
+    numChambr VARCHAR(4) PRIMARY KEY,
     Design VARCHAR(10) NOT NULL CHECK (Design IN ('STANDARD', 'CONFORT', 'DELUXE', 'FAMILIAL', 'LUXE', 'SUITE')),
     Type VARCHAR(10) NOT NULL CHECK (Type IN ('SIMPLE', 'DOUBLE', 'TWIN', 'TRIPLE', 'QUADRUPLE')),
     prixNuite INT NOT NULL
 );
 
 CREATE TABLE reserver (
-    idreserv INT PRIMARY KEY,
-    dateReserv DATE DEFAULT CURRENT_DATE NOT NULL UNIQUE,
+    idreserv INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    dateReserv DATE DEFAULT CURRENT_DATE NOT NULL,
     dateEntree DATE NOT NULL,
     nbrJour INT NOT NULL,
-    numClient VARCHAR(5) NOT NULL,
-    mail VARCHAR(30) NOT NULL,
-    numChambr VARCHAR(3) NOT NULL,
+    nomClient VARCHAR(100) NOT NULL,
+    numClient VARCHAR(13) NOT NULL,
+    mail VARCHAR(50) NOT NULL,
+    numChambr VARCHAR(4) NOT NULL,
 
     CONSTRAINT fk_chambre FOREIGN KEY (numChambr) REFERENCES chambre(numChambr) ON UPDATE CASCADE
 );
 
 CREATE TABLE occuper (
-    idOccup INT PRIMARY KEY,
+    idOccup INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     idreserv INT NOT NULL,
 
     CONSTRAINT fk_reserver FOREIGN KEY (idreserv) REFERENCES reserver(idreserv) ON DELETE CASCADE
 );
 
 CREATE TABLE sejourner (
-    idsejour INT PRIMARY KEY,
+    idsejour INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     dateEntreeSejour DATE DEFAULT CURRENT_DATE NOT NULL,
     nbrJour INT NOT NULL,
-    nomClient VARCHAR(5) NOT NULL,
+    nomClient VARCHAR(100) NOT NULL,
     telephone VARCHAR(13) NOT NULL,
-    numChambr VARCHAR(3) NOT NULL,
+    numChambr VARCHAR(5) NOT NULL,
 
     CONSTRAINT fk_chambre FOREIGN KEY (numChambr) REFERENCES chambre(numchambr) ON UPDATE CASCADE
 );
