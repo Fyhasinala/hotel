@@ -22,7 +22,7 @@ public class Rooms extends CardHover
     public Rooms(String number, String status, String design, int price, String type)
     {
         this.roomNumber = number;
-        FXMLLoader loadRoom = new FXMLLoader(getClass().getResource("rooms.fxml"));
+        FXMLLoader loadRoom = new FXMLLoader(getClass().getResource("/com/hotel/controllers/rooms.fxml"));
         loadRoom.setRoot(this);
         loadRoom.setController(this);
         try
@@ -44,7 +44,8 @@ public class Rooms extends CardHover
         this.status.getStyleClass().setAll("label", design);
         this.design.getStyleClass().setAll("label", design);
         this.price.getStyleClass().setAll("label", design);
-        this.getStyleClass().setAll("stack-pane", "s-"+design);
+        this.getStyleClass().removeAll("s-CONFORT", "s-DELUXE", "s-FAMILIAL", "stack-pane");
+        this.getStyleClass().addAll("stack-pane", "s-" + design);
 
         this.addEventHandler(javafx.scene.input.MouseEvent.MOUSE_CLICKED, event ->
         {
@@ -70,6 +71,9 @@ public class Rooms extends CardHover
             st.setToY(1.0);
             st.playFromStart();
         });
+        this.setMinSize(200, 150);
+        this.setPrefSize(200, 150);
+        this.setMaxSize(200, 150);
     }
 
     public String getNumber()

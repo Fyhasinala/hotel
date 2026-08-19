@@ -9,7 +9,7 @@ import java.util.List;
 
 public class CardRoom
 {
-    private  String roomDesign;
+    private String roomDesign;
     private String roomNumber;
     private String roomType;
     private int roomPrice;
@@ -25,7 +25,7 @@ public class CardRoom
     }
     public CardRoom (String roomNumber)
     {
-        String query = "SELECT design, prixNuite FROM chambre WHERE numChambr = ?";
+        String query = "SELECT design, prixNuite, type FROM chambre WHERE numChambr = ?";
 
         try (Connection butler = Vatis.prepare().ready(); PreparedStatement ticket = butler.prepareStatement(query))
         {
@@ -87,9 +87,9 @@ public class CardRoom
 
         try (Connection butler = Vatis.prepare().ready(); PreparedStatement ticket = butler.prepareStatement(query))
         {
-            ticket.setString(1, roomType);
+            ticket.setString(1, roomDesign);
             ticket.setInt(2, roomPrice);
-            ticket.setString(3, roomDesign);
+            ticket.setString(3, roomType);
             ticket.setString(4, roomNumber);
             int rowAffected = ticket.executeUpdate();
 
@@ -181,13 +181,13 @@ public class CardRoom
         String query = "SELECT * FROM chambre";
         if (filter.equals("Occuper"))
         {
-            query = "SELECT c.numChambr, c.design, c.prixNuite FROM chambre c " +
+            query = "SELECT c.numChambr, c.design, c.prixNuite, c.type FROM chambre c " +
                         "WHERE EXISTS (SELECT 1 FROM reserver r WHERE r.numChambr = c.numChambr AND CURRENT_DATE BETWEEN r.dateentree AND r.dateentree + (r.nbrjour * INTERVAL '1 day')) " +
                         "OR EXISTS (SELECT 1 FROM sejourner s WHERE s.numChambr = c.numChambr AND CURRENT_DATE BETWEEN s.dateentreesejour AND s.dateentreesejour + (s.nbrjour * INTERVAL '1 day'))";
         }
         else if (filter.equals("Libre"))
         {
-            query = "SELECT c.numChambr, c.design, c.prixNuite FROM chambre c WHERE NOT EXISTS (SELECT 1 FROM sejourner s WHERE s.numChambr = c.numChambr) AND " +
+            query = "SELECT c.numChambr, c.design, c.prixNuite, c.type FROM chambre c WHERE NOT EXISTS (SELECT 1 FROM sejourner s WHERE s.numChambr = c.numChambr) AND " +
                     "NOT EXISTS (SELECT 1 FROM reserver r WHERE r.numChambr = c.numChambr AND CURRENT_DATE BETWEEN r.dateentree AND r.dateentree + (r.nbrjour * INTERVAL '1 day'))";
         }
         return query;

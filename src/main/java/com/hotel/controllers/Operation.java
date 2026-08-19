@@ -1,6 +1,7 @@
 package com.hotel.controllers;
 
 import com.hotel.databases.Vatis;
+import java.util.Date;
 import com.hotel.databases.VatisGateway;
 import javafx.fxml.FXML;
 import com.hotel.models.Chambremo;
@@ -11,6 +12,9 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import javafx.scene.layout.*;
 import java.util.Locale;
+
+import static com.hotel.databases.GeneratePdf.generateReceipt;
+import static com.hotel.utilities.MailSender.sendConfirmation;
 
 public class Operation {
     
@@ -339,26 +343,36 @@ telChamp.textProperty().addListener((observable, oldValue, newValue) -> {
                 "VALUES (?, ?, ?, ?) ";
 
                 prep = co.prepareStatement(req);
-                
+
                 prep.setInt(1, nbr);
                 prep.setString(2, nom);
                 prep.setString(3, tel);
                 prep.setString(4, chambre);
-
-                
 
             }
 
             prep.executeUpdate();
             System.out.println("Enregistrement reussi");
              new Alert(Alert.AlertType.INFORMATION, "ENREGISTEMENT EFFECTUE").showAndWait();
-            
+             Date date = new Date();
+             String id;
+            try (Connection butler = Vatis.prepare().ready();
+                 PreparedStatement ticket = butler.prepareStatement("SELECT dateEntreeSejour + (nbrjour * INTERVAL '1day') AS mock, idsejour FROM sejourner WHERE numChambr = ?"))
+            {
+                ticket.setString(1, chambre);
+                ResultSet set = ticket.executeQuery();
+                date = set.getDate("mock");
+                id = set.getString("idsejour");
+            }
+            generateReceipt("Sejour-"+id, id,new Date(), date, nom, chambre);
+
 
             chambreDispo();
             nomChamp.clear();
             telChamp.clear();
             mailChamp.clear();
 
+            sendConfirmation(chambre, debut, nbr, mail);
 
         }catch(SQLException e){
             e.printStackTrace();

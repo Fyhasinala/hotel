@@ -9,23 +9,9 @@
 .navigation
 {
     -fx-padding: 30px 0px 20px 0px;
-<<<<<<< HEAD
     -fx-background-color: transparent;
 }
 .my-button
-=======
-    -fx-background-color: #FF007260;
-}
-.room
-{
-    -fx-padding: 0px;
-    -fx-border-radius: 30px;
-    -fx-background-color: #1C47FF4D;
-    -fx-background-radius: 30px;
-    -fx-effect: null;
-}
-.b-button
->>>>>>> main
 {
     -fx-padding: 0px;
     -fx-border-radius: 30px;
@@ -33,17 +19,11 @@
     -fx-background-radius: 30px;
     -fx-effect: null;
 }
-<<<<<<< HEAD
 .my-button:hover
 {
     -fx-cursor: hand;
     -fx-border-color: #FF007260;
     -fx-border-width: 5;
-=======
-.b-button:hover
-{
-    -fx-background-color: #aa00ff6f;
->>>>>>> main
 }
 .blur
 {
@@ -62,8 +42,7 @@
     -fx-background-radius: 0 0 30 30;
     -fx-effect: null;
 }
-<<<<<<< HEAD
-.LUXE
+.LUXE, .CONFORT, .DELUXE,.FAMILIAL,.STANDARD,.SUITE
 {
     -fx-text-fill: #000000;
     -fx-font-weight: 900;
@@ -77,37 +56,36 @@
     -fx-background-radius: 20;
     -fx-background-color: #FF000080;
 }
-.STANDARD
-{
-    -fx-text-fill: #000000;
-    -fx-font-weight: 900;
-    -fx-font-size: 20;
-    -fx-border-color: #001017B2;
-    -fx-border-radius: 20;
-    -fx-background-radius: 20;
-}
 .s-STANDARD
 {
     -fx-background-radius: 20;
     -fx-background-color: #006FAED7;
-}
-.SUITE
-{
-    -fx-text-fill: #000000;
-    -fx-font-weight: 900;
-    -fx-font-size: 20;
-    -fx-border-color: #001017B2;
-    -fx-border-radius: 20;
-    -fx-background-radius: 20;
 }
 .s-SUITE
 {
     -fx-background-radius: 20;
     -fx-background-color: #FFD60080;
 }
+.s-STANDARD
+{
+    -fx-background-radius: 20;
+    -fx-background-color: rgb(30 100 59 / 0.54);
+}
+.s-FAMILIAL
+{
+    -fx-background-radius: 20;
+    -fx-background-color: rgb(248 63 255 / 0.83);
+}
+.s-CONFORT
+{
+    -fx-background-radius: 20;
+    -fx-background-color: rgb(132 160 255 / 0.83);
+}
 .selected-card
 {
-    -fx-background-color: #00101745;
+    -fx-border-color: #00101745;
+    -fx-border-width: 5;
+    -fx-border-radius: 30;
 }
 .newRoom
 {
@@ -184,5 +162,3 @@
     -fx-background-color: transparent;
     -fx-alignment: center;
 }
-=======
->>>>>>> main

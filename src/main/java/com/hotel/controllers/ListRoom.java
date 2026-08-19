@@ -3,6 +3,7 @@ package com.hotel.controllers;
 import com.hotel.databases.CardRoom;
 import com.hotel.databases.Result;
 import com.hotel.utilities.MutatingButton;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
@@ -12,22 +13,16 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
 
-import javax.swing.plaf.PopupMenuUI;
 import java.util.List;
 import java.util.Optional;
 
 public class ListRoom
 {
-    @FXML
-    public HBox footer;
-    @FXML
-    public BorderPane centerPane;
-    @FXML
-    private ScrollPane panelList;
-    @FXML
-    private FlowPane room;
-    @FXML
-    private ComboBox<String> sort;
+    @FXML public HBox footer;
+    @FXML public BorderPane centerPane;
+    @FXML private ScrollPane panelList;
+    @FXML private FlowPane room;
+    @FXML private ComboBox<String> sort;
 
     private Rooms selectedCard = null;
     private MutatingButton add;
@@ -76,52 +71,54 @@ public class ListRoom
                     PopupMessage.showInfo("Reminder", "Veuillez d'abord sélectionner une chambre à modifier.");
                     return;
                 }
-                sort.setOnMouseClicked(event -> selectedCard = null);
 
                 sort.setVisible(false);
                 sort.setManaged(false);
                 centerPane.setCenter(null);
+                // Pre-populates your editing view directly via your card reference string
                 ModifyRoom activeFormInstance = new ModifyRoom(ListRoom.this, selectedCard.getNumber());
                 centerPane.setCenter(activeFormInstance);
                 footer.setVisible(false);
                 footer.setManaged(false);
             }
         };
+
         delete = new MutatingButton("/com/hotel/assets/delete.png")
         {
             @Override
             protected void handleButtonClick()
             {
+                // 🔥 FIX 1: Explicitly HALT execution here if no selection card reference is trackable
                 if (selectedCard == null)
                 {
                     PopupMessage.showInfo("Reminder", "Veuillez d'abord sélectionner une chambre à supprimer.");
+                    return;
                 }
-                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-                alert.setTitle("Warning");
-                alert.setContentText("Confirm");
 
-                Optional<ButtonType> result = alert.showAndWait();
-                CardRoom room = new CardRoom(selectedCard.getNumber());
+                // Wrap popup inside Platform.runLater to prevent animation execution timeline blocks
+                Platform.runLater(() -> {
+                    Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                    alert.setTitle("Confirmation de suppression");
+                    alert.setHeaderText("Suppression de la chambre N° " + selectedCard.getNumber());
+                    alert.setContentText("Êtes-vous sûr de vouloir supprimer définitivement cette chambre ?");
 
-                boolean isTrue = result.isPresent() && result.get() == ButtonType.OK;
-                if (selectedCard != null)
-                {
-                    if (isTrue)
+                    Optional<ButtonType> result = alert.showAndWait();
+                    if (result.isPresent() && result.get() == ButtonType.OK)
                     {
-                        Result status = room.destroyRoom();
+                        CardRoom roomObj = new CardRoom(selectedCard.getNumber());
+                        Result status = roomObj.destroyRoom();
+
                         if (status.status())
                         {
                             PopupMessage.showInfo("Success", status.message());
-                            fillRoom("Tous");
-                        } else
+                            showRoom(); // Instantly clears selection tracking maps and pulls active database records
+                        }
+                        else
                         {
-                            PopupMessage.showError("Warnin", status.message());
+                            PopupMessage.showError("Warning", status.message());
                         }
                     }
-                } else
-                {
-                    PopupMessage.showError("Error", "La chambre a detruire reste introuvable");
-                }
+                });
             }
         };
     }
@@ -138,7 +135,7 @@ public class ListRoom
         footer.getChildren().clear();
         footer.getChildren().addAll(add, modify, delete);
 
-        selectedCard = null;
+        selectedCard = null; // Cleanly resets single-target selections whenever view redraw swaps execute
 
         fillRoom(sort.getValue() != null ? sort.getValue() : "Tous");
     }
@@ -169,13 +166,20 @@ public class ListRoom
 
                 card.setOnMouseClicked(event ->
                 {
+                    // Remove border style from previous card reference tracking instances
                     if (selectedCard != null && selectedCard != card)
                     {
                         selectedCard.getStyleClass().remove("selected-card");
                     }
+
                     selectedCard = card;
 
+                    // 🔥 FIX 2: Explicitly apply the style border accent class so it lights up on screen!
+                    if (!selectedCard.getStyleClass().contains("selected-card")) {
+                        selectedCard.getStyleClass().add("selected-card");
+                    }
                 });
+
                 room.getChildren().add(card);
             }
         }
