@@ -338,6 +338,18 @@ telChamp.textProperty().addListener((observable, oldValue, newValue) -> {
                 prep.setString(4, tel);
                 prep.setString(5, mail);
                 prep.setString(6, chambre);
+                try (Connection butler = Vatis.prepare().ready();
+                     PreparedStatement ticket = butler.prepareStatement("SELECT dateEntreeSejour + (nbrjour * INTERVAL '1day') AS mock, idsejour FROM sejourner WHERE numChambr = ?"))
+                {
+                    ticket.setString(1, chambre);
+                    ResultSet set = ticket.executeQuery();
+                    if (set.next())
+                    {
+                        java.sql.Date date = set.getDate("mock");
+                        String id = set.getString("idsejour");
+                        generateReceipt("Sejour-"+id, id,new Date(), date, nom, chambre);
+                    }
+                }
             } else {
                 String req = "INSERT INTO sejourner (nbrJour, nomClient, telephone, numChambr) " +
                 "VALUES (?, ?, ?, ?) ";
@@ -356,16 +368,6 @@ telChamp.textProperty().addListener((observable, oldValue, newValue) -> {
              new Alert(Alert.AlertType.INFORMATION, "ENREGISTEMENT EFFECTUE").showAndWait();
              Date date = new Date();
              String id;
-            try (Connection butler = Vatis.prepare().ready();
-                 PreparedStatement ticket = butler.prepareStatement("SELECT dateEntreeSejour + (nbrjour * INTERVAL '1day') AS mock, idsejour FROM sejourner WHERE numChambr = ?"))
-            {
-                ticket.setString(1, chambre);
-                ResultSet set = ticket.executeQuery();
-                date = set.getDate("mock");
-                id = set.getString("idsejour");
-            }
-            generateReceipt("Sejour-"+id, id,new Date(), date, nom, chambre);
-
 
             chambreDispo();
             nomChamp.clear();
