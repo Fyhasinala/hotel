@@ -31,13 +31,11 @@ public class Main
 
     public void loadRoom()
     {
-
-        MyButton home = new MyButton("Table de bord", "/com/hotel/assets/sakura.png");
         MyButton room = new MyButton("Chambre", "/com/hotel/assets/bed.png");
 
         room.setOnAction(event -> loadRoom());
 
-        navBar.getChildren().addAll(home, room);
+        navBar.getChildren().addAll( room);
 
         try
         {

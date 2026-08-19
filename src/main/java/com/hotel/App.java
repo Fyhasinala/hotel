@@ -19,8 +19,8 @@ public class App extends Application {
     @Override
     public void start(Stage stage) throws IOException
     {
-<<<<<<< HEAD
-        try {
+        try
+        {
             Vatis.prepare();
             System.out.println("HikariCP connection pool initialized successfully!");
         } catch (Exception e) {
@@ -33,8 +33,6 @@ public class App extends Application {
             Vatis.closePool();
         });
 
-=======
->>>>>>> main
        FXMLLoader main = new FXMLLoader(App.class.getResource("/com/hotel/controllers/main.fxml"));
        stage.setTitle("Agnes Sweet Home");
        stage.setScene(new Scene(main.load(), 1366, 768));
