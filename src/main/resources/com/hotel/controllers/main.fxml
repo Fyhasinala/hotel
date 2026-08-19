@@ -12,6 +12,7 @@
 
     <VBox fx:id="navBar" alignment="TOP_CENTER" spacing="40" prefWidth="180" styleClass="navigation"/>
 
+
     <BorderPane fx:id="content" HBox.hgrow="ALWAYS" style="-fx-padding:10;">
         <center>
 

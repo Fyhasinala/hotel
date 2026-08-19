@@ -8,6 +8,7 @@ import javafx.scene.Parent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 
+
 import java.io.IOException;
 
 
@@ -30,17 +31,23 @@ public class Main
 
     public void loadRoom()
     {
+
+        MyButton home = new MyButton("Table de bord", "/com/hotel/assets/sakura.png");
+        MyButton room = new MyButton("Chambre", "/com/hotel/assets/bed.png");
+
+        room.setOnAction(event -> loadRoom());
+
+        navBar.getChildren().addAll(home, room);
+
         try
         {
-            FXMLLoader load = new FXMLLoader(getClass().getResource("/com/hotel/controllers/listRoom.fxml"));
-            Parent roomView = load.load();
-            content.setCenter(roomView);
-        }
-        catch (IOException ex)
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/hotel/controllers/home.fxml"));
+            Parent homeView = loader.load();
+
+            content.setCenter(homeView);
+        } catch (IOException ex)
         {
-            System.err.println("failure: "  + ex.getMessage());
-            ex.printStackTrace();
+            System.err.println("Failed to load listRoom.fxml view." + ex.getMessage());
         }
     }
-
 }

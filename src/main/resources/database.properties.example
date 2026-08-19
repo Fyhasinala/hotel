@@ -1,3 +1,4 @@
+
 db.url=jdbc:postgresql://127.0.0.1:PORT/DATABASE
 db.username="DB_USER"
 db.password="DB_PASSWORD"

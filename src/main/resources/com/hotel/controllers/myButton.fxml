@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.effect.BoxBlur?>
+
+<fx:root type="javafx.scene.control.Button" prefHeight="140" prefWidth="140" styleClass="b-button" xmlns:fx="http://javafx.com">
+    <graphic>
+        <StackPane>
+            <Region maxWidth="Infinity" maxHeight="Infinity" styleClass="blur">
+                <effect>
+                    <BoxBlur width="12" height="12" iterations="3"/>
+                </effect>
+            </Region>
+            <ImageView fx:id="image" StackPane.alignment="TOP_CENTER" fitWidth="80" fitHeight="80" preserveRatio="true"/>
+            <Label fx:id="label" alignment="CENTER" maxWidth="Infinity" StackPane.alignment="BOTTOM_CENTER" styleClass="b-label"/>
+        </StackPane>
+    </graphic>
+</fx:root>

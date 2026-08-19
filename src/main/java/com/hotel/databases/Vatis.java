@@ -15,30 +15,28 @@ public final class Vatis implements VatisGateway
    
    private Vatis()
    {
-      Properties data = new Properties();
-      try (InputStream input = Vatis.class.getClassLoader().getResourceAsStream("database.properties"))
-      {
-         if (input == null || input.available() == 0)
-         {
-            throw new IOException("unable to find database.properties");
-         }
-         data.load(input);
-          HikariConfig config = new HikariConfig();
-          config.setJdbcUrl(data.getProperty("url"));
-          config.setUsername(data.getProperty("username"));
-          config.setPassword(data.getProperty("password"));
+       Properties data = new Properties();
+       try (InputStream input = Vatis.class.getClassLoader().getResourceAsStream("database.properties"))
+       {
+           if (input == null || input.available() == 0)
+           {
+               throw new IOException("unable to find database.properties");
+           }
+           data.load(input);
+           HikariConfig config = new HikariConfig();
+           config.setJdbcUrl(data.getProperty("url"));
+           config.setUsername(data.getProperty("username"));
+           config.setPassword(data.getProperty("password"));
 
-          config.setMaximumPoolSize(10);
-          config.setMinimumIdle(2);
-          config.setConnectionTimeout(30000);
-          dataSource = new HikariDataSource(config);
-      }
-      catch (IOException ex)
-      {
-         throw new RuntimeException("Failed to load Vatis information : ", ex);
-      }
+           config.setMaximumPoolSize(10);
+           config.setMinimumIdle(2);
+           config.setConnectionTimeout(30000);
+           dataSource = new HikariDataSource(config);
+       } catch (IOException ex)
+       {
+           throw new RuntimeException("Failed to load Vatis information : ", ex);
+       }
    }
-   
    public static synchronized VatisGateway prepare()
    {
       if (instance == null)

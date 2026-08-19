@@ -18,11 +18,16 @@ import java.util.Optional;
 
 public class ListRoom
 {
-    @FXML public HBox footer;
-    @FXML public BorderPane centerPane;
-    @FXML private ScrollPane panelList;
-    @FXML private FlowPane room;
-    @FXML private ComboBox<String> sort;
+    @FXML
+    public HBox footer;
+    @FXML
+    public BorderPane centerPane;
+    @FXML
+    private ScrollPane panelList;
+    @FXML
+    private FlowPane room;
+    @FXML
+    private ComboBox<String> sort;
 
     private Rooms selectedCard = null;
     private MutatingButton add;
@@ -38,12 +43,14 @@ public class ListRoom
 
         fillRoom("Tous");
         sort.setOnAction(event ->
-        { String filter = sort.getValue();
+        {
+            String filter = sort.getValue();
             fillRoom(filter);
         });
     }
 
-    private void initializeAllButtons() {
+    private void initializeAllButtons()
+    {
         add = new MutatingButton("/com/hotel/assets/add.png")
         {
             @Override
@@ -64,7 +71,7 @@ public class ListRoom
             @Override
             protected void handleButtonClick()
             {
-                if(selectedCard == null)
+                if (selectedCard == null)
                 {
                     PopupMessage.showInfo("Reminder", "Veuillez d'abord sélectionner une chambre à modifier.");
                     return;
@@ -97,26 +104,24 @@ public class ListRoom
                 CardRoom room = new CardRoom(selectedCard.getNumber());
 
                 boolean isTrue = result.isPresent() && result.get() == ButtonType.OK;
-                    if (selectedCard != null)
+                if (selectedCard != null)
+                {
+                    if (isTrue)
                     {
-                        if (isTrue)
+                        Result status = room.destroyRoom();
+                        if (status.status())
                         {
-                            Result status = room.destroyRoom();
-                            if (status.status())
-                            {
-                                PopupMessage.showInfo("Success", status.message());
-                                fillRoom("Tous");
-                            }
-                            else
-                            {
-                                PopupMessage.showError("Warnin", status.message());
-                            }
+                            PopupMessage.showInfo("Success", status.message());
+                            fillRoom("Tous");
+                        } else
+                        {
+                            PopupMessage.showError("Warnin", status.message());
                         }
                     }
-                    else
-                    {
-                        PopupMessage.showError("Error", "La chambre a detruire reste introuvable");
-                    }
+                } else
+                {
+                    PopupMessage.showError("Error", "La chambre a detruire reste introuvable");
+                }
             }
         };
     }
@@ -161,7 +166,7 @@ public class ListRoom
             {
                 Rooms card = new Rooms(num, status, design, price);
 
-                card.setOnMouseClicked( event ->
+                card.setOnMouseClicked(event ->
                 {
                     if (selectedCard != null && selectedCard != card)
                     {
@@ -174,5 +179,4 @@ public class ListRoom
             }
         }
     }
-
 }

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.effect.BoxBlur?>
+
+<fx:root type="javafx.scene.control.Button" prefHeight="140" prefWidth="140" styleClass="b-button" xmlns:fx="http://javafx.com">
+
+    <graphic>
+        <StackPane>
+            <Region maxWidth="Infinity" maxHeight="Infinity" styleClass="blur">
+                <effect>
+                    <BoxBlur width="22" height="22" iterations="3"/>
+                </effect>
+            </Region>
+            <Label fx:id="room_number" alignment="CENTER" maxWidth="Infinity" StackPane.alignment="TOP_LEFT" styleClass="room"/>
+            <Label fx:id="status" alignment="CENTER" maxWidth="-Infinity" StackPane.alignment="BOTTOM_CENTER" styleClass="room"/>
+        </StackPane>
+    </graphic>
+
+</fx:root>

@@ -18,6 +18,7 @@
                 <ComboBox fx:id="sort" promptText="Tous" prefWidth="260" prefHeight="40" visibleRowCount="3" styleClass="drop-box">
                     <items>
                         <FXCollections fx:factory="observableArrayList">
+
                             <String fx:value="Tous"/>
                             <String fx:value="Libre"/>
                             <String fx:value="Occuper"/>
@@ -36,7 +37,9 @@
         </center>
 
         <bottom>
+
             <HBox fx:id="footer" prefHeight="150" alignment="CENTER" styleClass="footer" spacing="200"/>
+
         </bottom>
 
     </BorderPane>
