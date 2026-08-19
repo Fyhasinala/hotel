@@ -14,7 +14,7 @@ public class MailSender {
 
     private static  String username;
     private static  String password;
-    private static final String SMTP_HOST = "://gmail.com";
+    private static final String SMTP_HOST = "smtp.gmail.com";
     private static final String SMTP_PORT = "587";
 
     public static void sendConfirmation(String roomChamber, Date bookTime, int days, String customerMail)
@@ -28,9 +28,9 @@ public class MailSender {
                     System.err.println("Sorry, unable to find config.properties");
                     return;
                 }
+                properties.load(input);
                 username = properties.getProperty("email");
                 password = properties.getProperty("mailPass");
-                properties.load(input);
                 Properties prop = new Properties();
                 prop.put("mail.smtp.auth", "true");
                 prop.put("mail.smtp.starttls.enable", "true");
