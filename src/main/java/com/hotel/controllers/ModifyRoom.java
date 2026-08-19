@@ -17,6 +17,7 @@ public class ModifyRoom extends VBox
     @FXML private ComboBox<String> design;
     @FXML private HBox popupFooter;
     @FXML private TextField price;
+    @FXML private ComboBox<String> type;
 
     private final ListRoom parent;
 
@@ -41,16 +42,15 @@ public class ModifyRoom extends VBox
     {
         return roomNumber != null ? roomNumber.getText().trim() : "";
     }
-
     public String getDesign()
     {
         return design != null ? design.getValue() : null;
     }
-
     public String getPrice()
     {
         return price != null ? price.getText().trim() : "0";
     }
+    public String getType() { return type != null ? type.getValue() : null; }
 
     @FXML
     public void initialize()
@@ -87,6 +87,7 @@ public class ModifyRoom extends VBox
                 String designValue = getDesign();
                 String rawValue = getPrice();
                 int priceValue = 0;
+                String roomType = getType();
 
                 if (roomNumValue.isEmpty() || designValue == null || rawValue.isEmpty())
                 {
@@ -101,7 +102,7 @@ public class ModifyRoom extends VBox
                 {
                     System.err.println("Price string parsing failed: " + ex.getMessage());
                 }
-                CardRoom room = new CardRoom(roomNumValue, designValue, priceValue);
+                CardRoom room = new CardRoom(roomNumValue, designValue, priceValue, roomType);
                 Result result = room.upgradeRoom();
                 if (result.status())
                 {

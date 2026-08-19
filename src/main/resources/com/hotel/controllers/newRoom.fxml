@@ -17,12 +17,27 @@
 
     <TextField fx:id="roomNumber" prefWidth="260" prefHeight="40" promptText="Numéro de Chambre" alignment="CENTER" styleClass="newRoom"/>
 
-    <ComboBox fx:id="design" promptText="TYPE" prefWidth="260" prefHeight="40" visibleRowCount="3" styleClass="drop-box">
+    <ComboBox fx:id="design" promptText="TYPE" prefWidth="260" prefHeight="40" visibleRowCount="6" styleClass="drop-box">
         <items>
             <FXCollections fx:factory="observableArrayList">
                 <String fx:value="STANDARD"/>
-                <String fx:value="LUXE"/>
+                <String fx:value="CONFORT"/>
+                <String fx:value="DELUXE"/>
+                <String fx:value="FAMILIAL"/>
                 <String fx:value="SUITE"/>
+                <String fx:value="LUXE"/>
+            </FXCollections>
+        </items>
+    </ComboBox>
+    <ComboBox fx:id="type" promptText="LIT" prefWidth="260" prefHeight="40" visibleRowCount="5" styleClass="drop-box">
+        <items>
+            <FXCollections fx:factory="observableArrayList">
+                <String fx:value="SIMPLE"/>
+                <String fx:value="DOUBLE"/>
+                <String fx:value="TWIN"/>
+                <String fx:value="QUADRUPLE"/>
+                <String fx:value="TRIPLE"/>
+
             </FXCollections>
         </items>
     </ComboBox>

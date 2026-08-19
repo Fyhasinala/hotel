@@ -1,6 +1,8 @@
 package com.hotel.controllers;
 
 //import java.io.IOException;
+import com.hotel.databases.Vatis;
+import com.hotel.databases.VatisGateway;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 
@@ -14,12 +16,10 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-//import javafx.scene.control.cell.DatePickerTableCell;
 import javafx.util.converter.IntegerStringConverter;
 import javafx.event.ActionEvent;
 import java.util.Optional;
 
-import com.hotel.dbsvc.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 

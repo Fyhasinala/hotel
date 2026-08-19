@@ -157,6 +157,7 @@ public class ListRoom
             String status = roomItem.getStatus();
             String design = roomItem.getRoomType();
             int price = roomItem.getRoomPrice();
+            String type = roomItem.getRoomDesign();
 
             boolean matchesAll = filter.equals("Tous");
             boolean matchesLibre = filter.equals("Libre") && status.equals("L");
@@ -164,7 +165,7 @@ public class ListRoom
 
             if (matchesAll || matchesLibre || matchesOccuper)
             {
-                Rooms card = new Rooms(num, status, design, price);
+                Rooms card = new Rooms(num, status, design, price, type);
 
                 card.setOnMouseClicked(event ->
                 {

@@ -5,6 +5,7 @@
 
 <fx:root prefHeight="150" prefWidth="200" type="javafx.scene.layout.StackPane" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1">
 
+    <Label fx:id="type" alignment="CENTER" prefHeight="150" prefWidth="200" style="-fx-font-size: 50; -fx-font-weight:900" StackPane.alignment="CENTER" />
     <Label fx:id="number" alignment="CENTER" prefHeight="150" prefWidth="200" style="-fx-font-size: 30;" StackPane.alignment="BOTTOM_CENTER" />
     <Label fx:id="price" alignment="CENTER" prefHeight="50" prefWidth="200" style="-fx-font-size: 20;" StackPane.alignment="BOTTOM_CENTER" />
     <Label fx:id="status" alignment="CENTER" prefHeight="40" prefWidth="40" StackPane.alignment="TOP_RIGHT" />

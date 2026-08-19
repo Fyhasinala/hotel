@@ -9,16 +9,18 @@ import java.util.List;
 
 public class CardRoom
 {
+    private  String roomDesign;
     private String roomNumber;
     private String roomType;
     private int roomPrice;
     private String status;
 
-    public CardRoom (String roomNumber, String roomType, int roomPrice)
+    public CardRoom (String roomNumber, String roomType, int roomPrice, String roomDesign)
     {
         this.roomNumber = roomNumber;
         this.roomType = roomType;
         this.roomPrice = roomPrice;
+        this.roomDesign = roomDesign;
         checkIfOccupied(roomNumber);
     }
     public CardRoom (String roomNumber)
@@ -36,6 +38,7 @@ public class CardRoom
                     this.roomNumber = roomNumber;
                     this.roomType = row.getString("design");
                     this.roomPrice = row.getInt("prixNuite");
+                    this.roomDesign = row.getString("type");
                     checkIfOccupied(roomNumber);
                 }
             }
@@ -51,16 +54,18 @@ public class CardRoom
     public String getRoomType() { return roomType; }
     public int getRoomPrice() { return roomPrice; }
     public String getStatus() { return status; }
+    public String getRoomDesign() { return roomDesign; }
 
     public final Result buildRoom()
     {
-        String query = "INSERT INTO chambre (numChambr, design, prixNuite) VALUES (?, ?, ?)";
+        String query = "INSERT INTO chambre (numChambr, design, type, prixNuite) VALUES (?, ?, ?, ?)";
 
         try (Connection butler = Vatis.prepare().ready(); PreparedStatement ticket = butler.prepareStatement(query))
         {
             ticket.setString(1, roomNumber);
             ticket.setString(2, roomType);
-            ticket.setInt(3, roomPrice);
+            ticket.setString(3, roomDesign);
+            ticket.setInt(4, roomPrice);
             int rowAffected = ticket.executeUpdate();
 
             if (rowAffected > 0)
@@ -78,13 +83,14 @@ public class CardRoom
 
     public final Result upgradeRoom()
     {
-        String query = "UPDATE chambre SET design = ?, prixNuite = ? WHERE numChambr = ?";
+        String query = "UPDATE chambre SET design = ?, prixNuite = ?, type = ? WHERE numChambr = ?";
 
         try (Connection butler = Vatis.prepare().ready(); PreparedStatement ticket = butler.prepareStatement(query))
         {
             ticket.setString(1, roomType);
             ticket.setInt(2, roomPrice);
-            ticket.setString(3, roomNumber);
+            ticket.setString(3, roomDesign);
+            ticket.setString(4, roomNumber);
             int rowAffected = ticket.executeUpdate();
 
             if (rowAffected > 0)
@@ -158,7 +164,8 @@ public class CardRoom
                 String roomNumber = row.getString("numChambr");
                 String roomType = row.getString("design");
                 int roomPrice = row.getInt("prixNuite");
-                CardRoom room = new CardRoom (roomNumber, roomType, roomPrice);
+                String roomDesign = row.getString("type");
+                CardRoom room = new CardRoom (roomNumber, roomType, roomPrice, roomDesign);
                 roomList.add(room);
             }
         }

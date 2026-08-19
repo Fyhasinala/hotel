@@ -1,6 +1,9 @@
 package com.hotel.controllers;
 
 import java.io.IOException;
+
+import com.hotel.databases.Vatis;
+import com.hotel.databases.VatisGateway;
 import javafx.fxml.FXML;
 import com.hotel.models.Reserver;
 import javafx.scene.control.*;
@@ -14,7 +17,6 @@ import java.util.Optional;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.*;
 import javafx.stage.*;
-import com.hotel.dbsvc.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import java.sql.*;

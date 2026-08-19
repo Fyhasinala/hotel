@@ -1,24 +1,13 @@
 package com.hotel.controllers;
 
 
+import com.hotel.databases.Vatis;
+import com.hotel.databases.VatisGateway;
 import javafx.fxml.FXML;
 import com.hotel.models.Chambremo;
 import com.hotel.models.Sejourner;
-
 import javafx.scene.control.*;
-import javafx.scene.control.Alert.AlertType;
-import javafx.scene.control.cell.TextFieldTableCell;
-//import javafx.scene.control.cell.DatePickerTableCell;
-import javafx.util.converter.IntegerStringConverter;
-import javafx.event.ActionEvent;
-import java.util.Optional;
-
-import com.hotel.dbsvc.*;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import java.sql.*;
-
-import javafx.event.Event;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import javafx.scene.layout.*;

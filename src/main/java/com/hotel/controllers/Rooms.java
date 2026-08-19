@@ -12,13 +12,14 @@ import java.io.IOException;
 public class Rooms extends CardHover
 {
     private final String roomNumber;
+    @FXML private Label type;
     @FXML private Label number;
     @FXML private Label status;
     @FXML private Label design;
     @FXML private Label price;
     private Boolean isSelected = false;
 
-    public Rooms(String number, String status, String design, int price)
+    public Rooms(String number, String status, String design, int price, String type)
     {
         this.roomNumber = number;
         FXMLLoader loadRoom = new FXMLLoader(getClass().getResource("rooms.fxml"));
@@ -33,20 +34,12 @@ public class Rooms extends CardHover
             throw new RuntimeException("Failed to compile room components", ex);
         }
 
-        if (number != null && !number.trim().isEmpty())
-        {
-            this.number.setText(number);
-            this.status.setText(status);
-            this.design.setText(design);
-            this.price.setText(String.valueOf(price));
-        }
-        else
-        {
-            this.number.setText("noRoom");
-            this.status.setText(".");
-            this.design.setText("NULL");
-            this.price.setText("0");
-        }
+        this.type.setText(type);
+        this.number.setText(number);
+        this.status.setText(status);
+        this.design.setText(design);
+        this.price.setText(String.valueOf(price));
+
         this.number.getStyleClass().setAll("label", design);
         this.status.getStyleClass().setAll("label", design);
         this.design.getStyleClass().setAll("label", design);

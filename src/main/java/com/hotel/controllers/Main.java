@@ -28,7 +28,7 @@ public class Main
     {
         MyButton room = new MyButton("Chambre", "/com/hotel/assets/bed.png");
         MyButton operation = new MyButton("Operation", "/com/hotel/assets/list.png");
-        MyButton reservations = new MyButton("Reservations", "/com/hotel/assets/holiday.png");
+        MyButton reservations = new MyButton("Reservations", "/com/hotel/assets/book.png");
         MyButton sejours = new MyButton("Sejours", "/com/hotel/assets/stay.png");
         
 

@@ -17,6 +17,7 @@ public class NewRoom extends VBox
     @FXML private ComboBox<String> design;
     @FXML private HBox popupFooter;
     @FXML private TextField price;
+    @FXML private ComboBox<String> type;
 
     private final ListRoom parent;
 
@@ -40,40 +41,63 @@ public class NewRoom extends VBox
     {
         return roomNumber != null ? roomNumber.getText().trim() : "";
     }
-
     public String getDesign()
     {
         return design != null ? design.getValue() : null;
     }
-
     public String getPrice()
     {
         return price != null ? price.getText().trim() : "0";
     }
+    public String getType() { return price != null ? type.getValue() : null; }
 
     @FXML
     public void initialize()
     {
         design.setOnAction(event -> showPrice());
+        type.setOnAction(event -> showPrice());
     }
 
-    public void showPrice()
-    {
+    public void showPrice() {
         String selectedDesign = design.getValue();
-        if (selectedDesign == null) {
+        String selectedType = type.getValue(); // assuming your second ComboBox is called type
+
+        // 1. Guard against unselected inputs
+        if (selectedDesign == null || selectedType == null) {
             price.setText("0");
             return;
         }
 
-        int calculatedPrice = switch (selectedDesign)
-        {
+        // 2. Fetch Base Design Pricing smoothly
+        int basePrice = switch (selectedDesign) {
             case "STANDARD" -> 10000;
-            case "LUXE" -> 20000;
-            case "SUITE" -> 25000;
-            default -> 0;
+            case "CONFORT"  -> 12000;
+            case "DELUXE"   -> 15000;
+            case "FAMILIAL" -> 17000;
+            case "LUXE"     -> 20000;
+            case "SUITE"     -> 25000;
+            default         -> 0;
         };
-        price.setText(String.valueOf(calculatedPrice));
+
+        // 3. Fetch Type Premium Addon cleanly
+        int typeAddon = switch (selectedType) {
+            case "SIMPLE"    -> 0;
+            case "DOUBLE"    -> 5000;
+            case "TWIN"      -> 25000;
+            case "TRIPLE"    -> 10000;
+            case "QUADRUPLE" -> 12000;
+            default          -> -1; // Flag invalid input values
+        };
+
+        // 4. Render calculations to UI interface layers safely
+        if (basePrice == 0 || typeAddon == -1) {
+            price.setText("0");
+        } else {
+            int finalPrice = basePrice + typeAddon;
+            price.setText(String.valueOf(finalPrice));
+        }
     }
+
 
     private void setupActionButtons()
     {
@@ -85,6 +109,7 @@ public class NewRoom extends VBox
                 String roomNumValue = getRoomNumber();
                 String designValue = getDesign();
                 String rawValue = getPrice();
+                String typeValue = getType();
                 int priceValue = 0;
 
                 if (roomNumValue.isEmpty() || designValue == null || rawValue.isEmpty())
@@ -100,7 +125,7 @@ public class NewRoom extends VBox
                 {
                 System.err.println("Price string parsing failed: " + ex.getMessage());
                 }
-                CardRoom room = new CardRoom(roomNumValue, designValue, priceValue);
+                CardRoom room = new CardRoom(roomNumValue, designValue, priceValue, typeValue);
                 Result result = room.buildRoom();
                 if (result.status())
                 {
