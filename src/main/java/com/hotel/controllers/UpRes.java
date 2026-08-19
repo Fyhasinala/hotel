@@ -68,9 +68,9 @@ public class UpRes {
     private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd / MM / yyyy");
 
     private Reserver ligneRes;
+    private Runnable onActionSuccess;
 
-
-    public void initData(Reserver res)
+    public void initData(Reserver res, Runnable onSuccess)
     {
         this.ligneRes = res;
        
@@ -107,6 +107,26 @@ public class UpRes {
             chambreDispo();
 
         } );
+        // 1. Filtrer le Nom : Autoriser lettres, espaces, tirets et apostrophes (Max 50 caractères)
+nomChamp.textProperty().addListener((observable, oldValue, newValue) -> {
+    if (!newValue.matches("[a-zA-ZÀ-ÿ\\s'-]*")) {
+        nomChamp.setText(oldValue);
+    }
+    if (newValue.length() > 50) {
+        nomChamp.setText(oldValue);
+    }
+});
+
+// 2. Filtrer le Téléphone : Autoriser uniquement les chiffres et le caractère + (Max 15 caractères)
+telChamp.textProperty().addListener((observable, oldValue, newValue) -> {
+    if (!newValue.matches("[0-9+]*")) {
+        telChamp.setText(oldValue);
+    }
+    if (newValue.length() > 15) {
+        telChamp.setText(oldValue);
+    }
+});
+
 
         desCombo.valueProperty().addListener((o, ov, nv) -> {
             finetprix();
@@ -267,26 +287,59 @@ public class UpRes {
 
     @FXML
     private void valider(){
-        if(nomChamp.getText().trim().isEmpty()){
-            new Alert(Alert.AlertType.WARNING, "Veuillez saisir le nom du client").showAndWait();
-            return;
-        }
-        if(telChamp.getText().trim().isEmpty()){
-            new Alert(Alert.AlertType.WARNING, "Veuillez saisir le nom du client").showAndWait();
-            return;
-        }
-        if(mailChamp.getText().trim().isEmpty()){
-            new Alert(Alert.AlertType.WARNING, "Veuillez saisir le nom du client").showAndWait();
-            return;
-        }
-        String opChoix = ((RadioButton) groupe.getSelectedToggle()).getText();
-        String table = opChoix.equals("Reservation") ? "reserver" : "sejourner";
+         String nom = nomChamp.getText().trim();
+    String tel = telChamp.getText().trim();
+    String mail = mailChamp.getText().trim();
+
+    // 1. Validation de l'intégrité du NOM
+    if (nom.isEmpty()) {
+        new Alert(Alert.AlertType.WARNING, "Veuillez saisir le nom du client.").showAndWait();
+        return;
+    }
+    if (nom.length() < 2) {
+        new Alert(Alert.AlertType.WARNING, "Le nom du client doit contenir au moins 2 caractères.").showAndWait();
+        return;
+    }
+
+    // 2. Validation de l'intégrité du TÉLÉPHONE
+    if (tel.isEmpty()) {
+        new Alert(Alert.AlertType.WARNING, "Veuillez saisir le numéro de téléphone.").showAndWait();
+        return;
+    }
+    // Format attendu : Optionnel (+), suivi de 8 à 14 chiffres (ex: 0341234567 ou +261341234567)
+    if (!tel.matches("^\\+?[0-9]{8,14}$")) {
+        new Alert(Alert.AlertType.WARNING, "Le numéro de téléphone est invalide.\nFormat attendu : Uniquement des chiffres (entre 8 et 14).").showAndWait();
+        return;
+    }
+
+    // 3. Validation de l'intégrité du MAIL
+    if (mail.isEmpty()) {
+        new Alert(Alert.AlertType.WARNING, "Veuillez saisir l'adresse email.").showAndWait();
+        return;
+    }
+    // Norme RFC 5322 simplifiée pour valider la structure d'une adresse emai
+
+    String regexEmail = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,6}$";
+    if (!mail.matches(regexEmail)) {
+        new Alert(Alert.AlertType.WARNING, "L'adresse email saisie n'est pas valide (ex: client@domaine.com).").showAndWait();
+        return;
+    }
+
+    // 4. Sécurité Chambre
+    if (choisie == null) {
+        new Alert(Alert.AlertType.WARNING, "Veuillez sélectionner une chambre.").showAndWait();
+        return;
+    }
+        //String opChoix = ((RadioButton) groupe.getSelectedToggle()).getText();
+       // String table = opChoix.equals("Reservation") ? "reserver" : "sejourner";
         java.sql.Date debut = java.sql.Date.valueOf(dateEntreePicker.getValue());
         int nbr = dureeSpinner.getValue();
-        String nom = nomChamp.getText();
+      /* String nom = nomChamp.getText();
         String tel = telChamp.getText();
-        String mail = mailChamp.getText();
+        String mail = mailChamp.getText();*/
+        //String chambre = champChoisie.getText();
         String chambre = choisie.getNum();
+
         int id = Integer.parseInt(idLabel.getText());
         
 
@@ -297,7 +350,7 @@ public class UpRes {
             Connection co = v.ready();
 
             
-                String req = "UPDATE reserver SET dateEntree = ?, nbrJour = ?, nomClient = ?, numClient = ?, mail = ?, numChambr ? " +
+                String req = "UPDATE reserver SET dateEntree = ?, nbrJour = ?, nomClient = ?, numClient = ?, mail = ?, numChambr = ? " +
                 "WHERE idreserv = ? ";
 
                 prep = co.prepareStatement(req);
@@ -313,6 +366,12 @@ public class UpRes {
             prep.executeUpdate();
             System.out.println("Enregistrement reussi");
              new Alert(Alert.AlertType.INFORMATION, "ENREGISTEMENT EFFECTUE").showAndWait();
+
+             if (onActionSuccess != null) {
+            onActionSuccess.run();
+        }
+             
+             idLabel.getScene().getWindow().hide();
             
 
             chambreDispo();
