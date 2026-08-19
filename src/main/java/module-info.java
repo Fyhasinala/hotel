@@ -6,6 +6,8 @@ module com.hotel {
     requires com.zaxxer.hikari;
     requires org.slf4j;
     requires java.desktop;
+    requires jakarta.mail;
+    requires com.github.librepdf.openpdf;
 
     opens com.hotel to javafx.fxml;
     exports com.hotel;
