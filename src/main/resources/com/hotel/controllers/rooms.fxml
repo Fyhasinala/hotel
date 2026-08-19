@@ -3,8 +3,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<fx:root prefHeight="150" prefWidth="200" type="javafx.scene.layout.StackPane" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" stylesheets="@../style.css
-">
+<fx:root prefHeight="150" prefWidth="200" type="javafx.scene.layout.StackPane" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" stylesheets="@../style.css">
 
     <!-- 1. Top Badges (Left & Right corners) -->
     <Label fx:id="design" alignment="CENTER" prefHeight="40" prefWidth="120" style="-fx-font-weight: bold; -fx-padding: 0 0 0 15;" StackPane.alignment="TOP_LEFT" />
@@ -13,7 +12,7 @@
     <!-- 2. Clean Center Display Layout (Groups Room Details Vertically to prevent collisions) -->
     <VBox alignment="CENTER" spacing="5" StackPane.alignment="CENTER" style="-fx-padding: 25 0 25 0;">
         <Label fx:id="type" alignment="CENTER" style="-fx-font-size: 24; -fx-font-weight: 900;" text="TYPE" />
-        <Label fx:id="number" alignment="CENTER" style="-fx-font-size: 20; -fx-font-weight: bold;" text="NUM" />
+        <Label fx:id="number" alignment="CENTER" style="-fx-font-size: 20; -fx-font-weight: bold;"/>
     </VBox>
 
     <!-- 3. Bottom Pricing Bar Strip -->

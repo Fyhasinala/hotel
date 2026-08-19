@@ -44,7 +44,6 @@ public class Rooms extends CardHover
         this.status.getStyleClass().setAll("label", design);
         this.design.getStyleClass().setAll("label", design);
         this.price.getStyleClass().setAll("label", design);
-        this.getStyleClass().removeAll("s-CONFORT", "s-DELUXE", "s-FAMILIAL", "stack-pane");
         this.getStyleClass().addAll("stack-pane", "s-" + design);
 
         this.addEventHandler(javafx.scene.input.MouseEvent.MOUSE_CLICKED, event ->

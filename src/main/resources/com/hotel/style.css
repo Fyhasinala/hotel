@@ -69,17 +69,22 @@
 .s-STANDARD
 {
     -fx-background-radius: 20;
-    -fx-background-color: rgb(30 100 59 / 0.54);
+    -fx-background-color: #1E643B8A;
 }
 .s-FAMILIAL
 {
     -fx-background-radius: 20;
-    -fx-background-color: rgb(248 63 255 / 0.83);
+    -fx-background-color: #F83FFFD4;
 }
 .s-CONFORT
 {
     -fx-background-radius: 20;
-    -fx-background-color: rgb(132 160 255 / 0.83);
+    -fx-background-color: #84A0FFD4;
+}
+.s-DELUXE
+{
+    -fx-background-radius: 20;
+    -fx-background-color: #DDFF00A6;
 }
 .selected-card
 {
