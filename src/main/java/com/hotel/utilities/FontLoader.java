@@ -17,15 +17,7 @@ public class FontLoader
             java.io.InputStream load = FontLoader.class.getResourceAsStream(font);
             if (load != null)
             {
-               Font registeredFont = Font.loadFont(load, 16);
-               
-               if (registeredFont != null)
-               {
-                  System.out.println("SUCCESS: Loaded family name -> \"" + registeredFont.getFamily() + "\"");
-               } else
-               {
-                  System.err.println("JavaFX engine failed to process the font file data for: " + font);
-               }
+                Font registeredFont = Font.loadFont(load, 16);
             }
             else
             {
