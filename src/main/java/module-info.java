@@ -3,6 +3,9 @@ module com.hotel {
     requires transitive javafx.graphics;
     requires javafx.fxml;
     requires java.sql;
+    requires com.zaxxer.hikari;
+    requires org.slf4j;
+    requires java.desktop;
 
     opens com.hotel to javafx.fxml;
     exports com.hotel;

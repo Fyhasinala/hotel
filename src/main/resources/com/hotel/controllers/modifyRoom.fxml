@@ -5,8 +5,8 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.collections.FXCollections?>
 <?import java.lang.String?>
-
 <?import javafx.scene.layout.HBox?>
+
 <fx:root type="javafx.scene.layout.VBox"
          xmlns="http://javafx.com/javafx"
          xmlns:fx="http://javafx.com/fxml"
@@ -15,7 +15,7 @@
          spacing="50"
          style="-fx-background-color: #c3bdff60; -fx-padding: 50 50 40 50; -fx-background-radius: 30;">
 
-    <TextField fx:id="roomNumber" prefWidth="260" prefHeight="40" promptText="Numéro de Chambre" alignment="CENTER" styleClass="newRoom"/>
+    <TextField fx:id="roomNumber" editable="false" prefWidth="260" prefHeight="40" promptText="Numéro de Chambre" alignment="CENTER" styleClass="newRoom"/>
 
     <ComboBox fx:id="design" promptText="TYPE" prefWidth="260" prefHeight="40" visibleRowCount="3" styleClass="drop-box">
         <items>

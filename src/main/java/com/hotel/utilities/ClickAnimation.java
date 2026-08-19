@@ -1,6 +1,7 @@
 package com.hotel.utilities;
 
 import javafx.animation.ScaleTransition;
+import javafx.application.Platform;
 import javafx.scene.control.Button;
 import javafx.util.Duration;
 
@@ -18,6 +19,9 @@ public abstract class ClickAnimation extends Button
         releasePop.setToY(1.05);
 
         pressDown.setOnFinished(finishEvent -> releasePop.playFromStart());
+        releasePop.setOnFinished(finishEvent -> {
+            Platform.runLater(this::handleButtonClick);
+        });
 
         this.setOnMouseEntered
         (event ->

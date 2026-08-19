@@ -11,7 +11,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import java.io.IOException;
 
-public class NewRoom extends VBox
+public class ModifyRoom extends VBox
 {
     @FXML private TextField roomNumber;
     @FXML private ComboBox<String> design;
@@ -20,10 +20,10 @@ public class NewRoom extends VBox
 
     private final ListRoom parent;
 
-    public NewRoom(ListRoom parent)
+    public ModifyRoom(ListRoom parent, String number)
     {
         this.parent = parent;
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/hotel/controllers/newRoom.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/hotel/controllers/modifyRoom.fxml"));
         loader.setRoot(this);
         loader.setController(this);
         try
@@ -33,6 +33,7 @@ public class NewRoom extends VBox
         {
             throw new RuntimeException("Failed to load newRoom layout template", ex);
         }
+        roomNumber.setText(number);
         setupActionButtons();
     }
 
@@ -98,10 +99,10 @@ public class NewRoom extends VBox
                 }
                 catch (NumberFormatException ex)
                 {
-                System.err.println("Price string parsing failed: " + ex.getMessage());
+                    System.err.println("Price string parsing failed: " + ex.getMessage());
                 }
                 CardRoom room = new CardRoom(roomNumValue, designValue, priceValue);
-                Result result = room.buildRoom();
+                Result result = room.upgradeRoom();
                 if (result.status())
                 {
                     PopupMessage.showInfo("Success", result.message());
@@ -122,6 +123,7 @@ public class NewRoom extends VBox
         };
         popupFooter.setSpacing(100);
         popupFooter.getChildren().addAll(confirm, cancel);
+
 
     }
 }

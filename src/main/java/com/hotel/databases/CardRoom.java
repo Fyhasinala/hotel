@@ -19,7 +19,7 @@ public class CardRoom
         this.roomNumber = roomNumber;
         this.roomType = roomType;
         this.roomPrice = roomPrice;
-        this.status = "";
+        checkIfOccupied(roomNumber);
     }
     public CardRoom (String roomNumber)
     {
@@ -33,10 +33,10 @@ public class CardRoom
             {
                 if(row.next())
                 {
-                    this.status = "L";
                     this.roomNumber = roomNumber;
                     this.roomType = row.getString("design");
                     this.roomPrice = row.getInt("prixNuite");
+                    checkIfOccupied(roomNumber);
                 }
             }
         }
@@ -100,10 +100,10 @@ public class CardRoom
         }
     }
 
-    public void checkIfOccupied (String roomNumber)
+    public final void checkIfOccupied (String roomNumber)
     {
         String query = "SELECT numChambr FROM sejourner WHERE numChambr = ? AND current_date BETWEEN dateentreesejour AND dateentreesejour + (nbrjour * INTERVAL '1 day')";
-        String query_2 = "SELECT numChambr FROM reserver WHERE numChambr = ? AND curren_date BETWEEN dateentree AND dateentree + (nbjour * INTERVAL '1 day')";
+        String query_2 = "SELECT numChambr FROM reserver WHERE numChambr = ? AND current_date BETWEEN dateentree AND dateentree + (nbrjour * INTERVAL '1 day')";
 
         try (Connection butler = Vatis.prepare().ready(); Connection butler_2 = Vatis.prepare().ready();
              PreparedStatement ticket = butler.prepareStatement(query); PreparedStatement ticket_2 = butler_2.prepareStatement(query_2))
@@ -158,11 +158,8 @@ public class CardRoom
                 String roomNumber = row.getString("numChambr");
                 String roomType = row.getString("design");
                 int roomPrice = row.getInt("prixNuite");
-                String status = "L";
-                if (filter.equals("Occuper")) status = "O";
-                else if (filter.equals("Libre")) status = "L";
-                CardRoom in = new CardRoom (roomNumber, roomType, roomPrice);
-                roomList.add(in);
+                CardRoom room = new CardRoom (roomNumber, roomType, roomPrice);
+                roomList.add(room);
             }
         }
         catch (SQLException ex)

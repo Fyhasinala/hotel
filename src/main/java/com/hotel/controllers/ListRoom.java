@@ -1,21 +1,20 @@
 package com.hotel.controllers;
 
 import com.hotel.databases.CardRoom;
+import com.hotel.databases.Result;
 import com.hotel.utilities.MutatingButton;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
+import javax.swing.plaf.PopupMenuUI;
 import java.util.List;
-
-import static com.hotel.databases.CardRoom.listAllRooms;
+import java.util.Optional;
 
 public class ListRoom
 {
@@ -25,96 +24,99 @@ public class ListRoom
     @FXML private FlowPane room;
     @FXML private ComboBox<String> sort;
 
+    private Rooms selectedCard = null;
     private MutatingButton add;
     private MutatingButton modify;
     private MutatingButton delete;
-    private MutatingButton cancel;
-    private MutatingButton confirm;
-
-    private NewRoom activeFormInstance;
 
     public void initialize()
     {
         initializeAllButtons();
+        sort.getItems().setAll("Tous", "Libre", "Occuper");
+        sort.setValue("Tous");
         showRoom();
 
         fillRoom("Tous");
-        sort.setOnAction(event -> { String filter = sort.getValue(); fillRoom(filter); });
+        sort.setOnAction(event ->
+        { String filter = sort.getValue();
+            fillRoom(filter);
+        });
     }
 
     private void initializeAllButtons() {
         add = new MutatingButton("/com/hotel/assets/add.png")
         {
             @Override
-            protected void handleButtonClick() {
-                // Store the instance into our tracker variable
-                activeFormInstance = new NewRoom(ListRoom.this);
+            protected void handleButtonClick()
+            {
+                sort.setVisible(false);
+                sort.setManaged(false);
+                centerPane.setCenter(null);
+                NewRoom activeFormInstance = new NewRoom(ListRoom.this);
                 centerPane.setCenter(activeFormInstance);
-                showNewRoomFooter();
+                footer.setVisible(false);
+                footer.setManaged(false);
             }
         };
 
-        modify = new MutatingButton("/com/hotel/assets/modify.png");
-        delete = new MutatingButton("/com/hotel/assets/delete.png");
-
-        confirm = new MutatingButton("/com/hotel/assets/confirm.png")
+        modify = new MutatingButton("/com/hotel/assets/modify.png")
         {
             @Override
             protected void handleButtonClick()
             {
-                if (activeFormInstance != null)
+                if(selectedCard == null)
                 {
-                    // 1. Grab the inputs using our getters!
-                    String roomNumValue = activeFormInstance.getRoomNumber();
-                    String designValue  = activeFormInstance.getDesign();
-                    String priceValue   = activeFormInstance.getPrice();
-
-                    // Validation check: prevent empty entries
-                    if (roomNumValue.isEmpty() || designValue == null)
-                    {
-                        System.err.println("Error: Fields cannot be left empty!");
-                        return;
-                    }
-
-                    // 2. Establish PostgreSQL Credentials
-                    String dbUrl = "jdbc:postgresql://localhost:5432/hotel_db"; // Replace with your DB name
-                    String dbUser = "postgres";                                 // Your username
-                    String dbPassword = "your_password";                         // Your password
-
-                    // 3. Prepare the secure SQL query template
-                    String sqlQuery = "INSERT INTO rooms (room_number, status, design, price) VALUES (?, ?, ?, ?)";
-
-                    try (Connection conn = DriverManager.getConnection(dbUrl, dbUser, dbPassword);
-                         PreparedStatement pstmt = conn.prepareStatement(sqlQuery)) {
-
-                        pstmt.setString(1, roomNumValue);
-                        pstmt.setString(2, "L"); // Default new rooms to 'L' (Libre)
-                        pstmt.setString(3, designValue);
-                        pstmt.setInt(4, Integer.parseInt(priceValue));
-
-                        int rowsInserted = pstmt.executeUpdate();
-                        if (rowsInserted > 0) {
-                            System.out.println("SUCCESS: Room added to database!");
-                        }
-                    } catch (SQLException ex) {
-                        System.err.println("Database error: " + ex.getMessage());
-                        ex.printStackTrace();
-                    } catch (NumberFormatException ex) {
-                        System.err.println("Price parsing error: " + ex.getMessage());
-                    }
+                    PopupMessage.showInfo("Reminder", "Veuillez d'abord sélectionner une chambre à modifier.");
+                    return;
                 }
+                sort.setOnMouseClicked(event -> selectedCard = null);
 
-                // Cleanly clear reference tracker and return to room grid view list
-                activeFormInstance = null;
-                showRoom();
+                sort.setVisible(false);
+                sort.setManaged(false);
+                centerPane.setCenter(null);
+                ModifyRoom activeFormInstance = new ModifyRoom(ListRoom.this, selectedCard.getNumber());
+                centerPane.setCenter(activeFormInstance);
+                footer.setVisible(false);
+                footer.setManaged(false);
             }
         };
-
-        cancel = new MutatingButton("/com/hotel/assets/cancel.png") {
+        delete = new MutatingButton("/com/hotel/assets/delete.png")
+        {
             @Override
-            protected void handleButtonClick() {
-                activeFormInstance = null; // Clear tracking reference
-                showRoom();
+            protected void handleButtonClick()
+            {
+                if (selectedCard == null)
+                {
+                    PopupMessage.showInfo("Reminder", "Veuillez d'abord sélectionner une chambre à supprimer.");
+                }
+                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                alert.setTitle("Warning");
+                alert.setContentText("Confirm");
+
+                Optional<ButtonType> result = alert.showAndWait();
+                CardRoom room = new CardRoom(selectedCard.getNumber());
+
+                boolean isTrue = result.isPresent() && result.get() == ButtonType.OK;
+                    if (selectedCard != null)
+                    {
+                        if (isTrue)
+                        {
+                            Result status = room.destroyRoom();
+                            if (status.status())
+                            {
+                                PopupMessage.showInfo("Success", status.message());
+                                fillRoom("Tous");
+                            }
+                            else
+                            {
+                                PopupMessage.showError("Warnin", status.message());
+                            }
+                        }
+                    }
+                    else
+                    {
+                        PopupMessage.showError("Error", "La chambre a detruire reste introuvable");
+                    }
             }
         };
     }
@@ -123,16 +125,17 @@ public class ListRoom
     {
         centerPane.setCenter(panelList);
 
+        sort.setManaged(true);
+        sort.setVisible(true);
+
+        footer.setManaged(true);
+        footer.setVisible(true);
         footer.getChildren().clear();
         footer.getChildren().addAll(add, modify, delete);
 
-        fillRoom(sort.getValue() != null ? sort.getValue() : "Tous");
-    }
+        selectedCard = null;
 
-    private void showNewRoomFooter()
-    {
-        footer.getChildren().clear();
-        footer.getChildren().addAll(confirm, cancel);
+        fillRoom(sort.getValue() != null ? sort.getValue() : "Tous");
     }
 
     public void fillRoom(String filter)
@@ -143,12 +146,12 @@ public class ListRoom
 
         List<CardRoom> roomList = CardRoom.listAllRooms(filter);
 
-        for (CardRoom in : roomList)
+        for (CardRoom roomItem : roomList)
         {
-            String num = in.getRoomNumber();
-            String status = in.getStatus();
-            String design = in.getRoomType();
-            int price = in.getRoomPrice();
+            String num = roomItem.getRoomNumber();
+            String status = roomItem.getStatus();
+            String design = roomItem.getRoomType();
+            int price = roomItem.getRoomPrice();
 
             boolean matchesAll = filter.equals("Tous");
             boolean matchesLibre = filter.equals("Libre") && status.equals("L");
@@ -157,8 +160,19 @@ public class ListRoom
             if (matchesAll || matchesLibre || matchesOccuper)
             {
                 Rooms card = new Rooms(num, status, design, price);
+
+                card.setOnMouseClicked( event ->
+                {
+                    if (selectedCard != null && selectedCard != card)
+                    {
+                        selectedCard.getStyleClass().remove("selected-card");
+                    }
+                    selectedCard = card;
+
+                });
                 room.getChildren().add(card);
             }
         }
     }
+
 }

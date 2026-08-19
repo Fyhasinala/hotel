@@ -84,7 +84,10 @@
     -fx-background-radius: 20;
     -fx-background-color: #FFD60080;
 }
-
+.selected-card
+{
+    -fx-background-color: #00101745;
+}
 .newRoom
 {
     -fx-font-size: 30;
