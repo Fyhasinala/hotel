@@ -18,6 +18,8 @@ import com.hotel.dbsvc.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import java.sql.*;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 public class Reservations {
     
@@ -154,7 +156,12 @@ public class Reservations {
                     FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/hotel/controllers/modifRes.fxml"));
             Parent root = loader.load();
 
-                
+             UpRes controllerPop = loader.getController();
+           controllerPop.initData(selected, () -> {
+                // Cette partie s'exécutera uniquement si la validation a réussi
+                initialize(); // <-- Remplacez par le nom de votre méthode qui lit la base de données
+                resTable.refresh();       // Optionnel si les items de la table changent complètement
+            });
             Stage pop = new Stage();
             pop.initModality(Modality.APPLICATION_MODAL);
             pop.initOwner(resTable.getScene().getWindow());
@@ -186,10 +193,59 @@ public class Reservations {
          Reserver selected = resTable.getSelectionModel().getSelectedItem();
          if(selected !=null)
         {
+                String numChambre = selected.getNumChambr();
+            int numero = selected.getId(); // ID de la réservation qu'on veut valider
+            
+            // Date du jour au moment du clic
+            LocalDate aujourdhui = LocalDate.now();
+            java.sql.Date today = java.sql.Date.valueOf(aujourdhui);
             Alert al = new Alert(AlertType.CONFIRMATION);
             al.setTitle("Commencer");
             al.setHeaderText(null);
-            int numero = selected.getId();
+           // int numero = selected.getId();
+
+        String sqlVerif = 
+        "SELECT 'Sejour' AS type_conflit FROM sejourner " +
+        "WHERE numChambr = ? " +
+        "  AND dateEntreeSejour <= ? " +
+        "  AND (dateEntreeSejour + nbrJour * INTERVAL '1 day') > ? " +
+        "UNION " +
+        "SELECT 'Reservation' AS type_conflit FROM reserver r " +
+        "WHERE r.numChambr = ? " +
+        "  AND r.idreserv != ? " + // 🔥 Sécurité : On ignore la réservation actuelle qu'on est en train de valider !
+        "  AND r.dateEntree <= ? " +
+        "  AND (r.dateEntree + r.nbrJour * INTERVAL '1 day') > ?";
+
+    VatisGateway v = Vatis.prepare();
+    try (Connection co = v.ready();
+         PreparedStatement prep = co.prepareStatement(sqlVerif)) {
+        
+        // Paramètres pour la partie 'sejourner'
+        prep.setString(1, numChambre);
+        prep.setDate(2, today);
+        prep.setDate(3, today);
+        
+        // Paramètres pour la partie 'reserver'
+        prep.setString(4, numChambre);
+        prep.setInt(5, numero);
+        prep.setDate(6, today);
+        prep.setDate(7, today);
+
+        try (ResultSet res = prep.executeQuery()) {
+            if (res.next()) {
+                String typeConflit = res.getString("type_conflit");
+                String messageErreur = typeConflit.equals("Sejour") 
+                    ? "La chambre N° " + numChambre + " est actuellement occupée par un client physique dans l'hôtel."
+                    : "La chambre N° " + numChambre + " est déjà attribuée à une autre réservation active pour cette date.";
+
+                
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Chambre indisponible");
+                alert.setHeaderText("Impossible de valider l'occupation !");
+                alert.setContentText(messageErreur + "\nDate de vérification : " + aujourdhui.format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
+                alert.showAndWait();
+                return; 
+            }
             al.setContentText("Commencer les sejour correspondant à la réservation " + numero + " ?");
 
             Optional<ButtonType> reponse = al.showAndWait();
@@ -206,15 +262,15 @@ public class Reservations {
                     e.printStackTrace();
                 }
             }
-        } else {
-             Alert alerte = new Alert(AlertType.WARNING);
-            alerte.setTitle("Selection manquante");
-            alerte.setHeaderText(null);
-            alerte.setContentText("Veuillez selectionner une ligne");
-            alerte.showAndWait();
+             //procederALOccupation(co, selected, today);
 
-        }
-    }
+    }} catch (SQLException e) {
+        e.printStackTrace();
+        new Alert(Alert.AlertType.ERROR, "Erreur lors de la vérification de la disponibilité :\n" + e.getMessage()).showAndWait();}
+    
+        
+}}
+    
 
     private void occuper(int id, String cham, int jours) throws SQLException
     {
